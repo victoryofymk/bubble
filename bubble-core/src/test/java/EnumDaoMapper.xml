@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.org.position.dao.employeeDao">
+    <resultMap type="com.org.position.model.employee" id="empResultMap">
+        <id property="employeeId" column="employeeId"/>
+        <result property="employeeName" column="employeeName"/>
+        <result property="employeeSax" column="employeeSax"/>
+        <result property="employeePost" column="employeePost"/>
+        <result property="employeeDepartment" column="employeeDepartment"/>
+    </resultMap>
+    <select id="findEnterpriseByExampleIf" parameterType="com.org.position.model.employee" resultMap="empResultMap">
+        select * from employee where 1=1
+        <if test="employeed !=null">
+            and employeeId=#{employeeId}
+        </if>
+        <if test="employeename!=null">
+            and employeeName=#{employeeName}
+        </if>
+        <if test="employeesax! =null">
+            and employeeSax=#{employeeSax}
+        </if>
+        <if test="employeepost!=null">
+            and employeePost=#{employeePost}
+        </if>
+        <if test="employeedepartment! =null">
+            and employeeDepartment=#{employeeDepartment}
+        </if>
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(*) from t_employee
+    </select>
+    <!--   根据id查询对应的数据信息 -->
+    <select id="findEnterprise" parameterType="int" resultType="com.org.position.model.employee">
+        select * from t_employee where employeeId=#{employeeId}
+    </select>
+    <!--    查询所有 数据 -->
+    <select id="getAllEnterprise" resultType="com.org.position.model.employee">
+        select * from t_employee
+    </select>
+    <!-- 添加数据信息 -->
+    <insert id="insertEnterprise" parameterType="com.org.position.model.employee">
+        insert into  t_employee(employeeId,employeeName,employeeSax,employeePost,employeeDepartment)
+        values (#{employeeId},#{employeeName},#{employeeSax},#{employeePost},#{employeeDepartment})
+    </insert>
+    <!-- 更新数据信息 -->
+    <update id="updateEnterprise" parameterType="com.org.position.model.employee">
+        update t_employee set employeeName=#{employeeName},employeeSax=#{employeeSax},employeePost=#{employeePost},employeeDepartment=#{employeeDepartment}
+        where employeeId=#{employeeId}
+    </update>
+    <!-- 删除数据信息 -->
+    <delete id="deleteEnterprise" parameterType="com.org.position.model.employee">
+        delete from t_employee where employeeId=#{employeeId}
+
+    </delete>
+</mapper>

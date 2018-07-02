@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.ymk.bubble.component.schedule.dao.JobAndTriggerMapper">
+
+    <resultMap id="BaseResultMap" type="com.it.ymk.bubble.component.schedule.entity.JobAndTrigger">
+        <result column="JOB_NAME" property="JOB_NAME" jdbcType="VARCHAR"/>
+        <result column="JOB_GROUP" property="JOB_GROUP" jdbcType="VARCHAR"/>
+        <result column="JOB_CLASS_NAME" property="JOB_CLASS_NAME" jdbcType="VARCHAR"/>
+        <result column="TRIGGER_NAME" property="TRIGGER_NAME" jdbcType="VARCHAR"/>
+        <result column="TRIGGER_GROUP" property="TRIGGER_NAME" jdbcType="VARCHAR"/>
+        <result column="CRON_EXPRESSION" property="CRON_EXPRESSION" jdbcType="VARCHAR"/>
+        <result column="TIME_ZONE_ID" property="TIME_ZONE_ID" jdbcType="VARCHAR"/>
+        <result column="TRIGGER_STATE" property="triggerStatus" jdbcType="VARCHAR"/>
+        <result column="TRIGGER_TYPE" property="triggerType" jdbcType="VARCHAR"/>
+        <result column="PREV_FIRE_TIME" property="prevFireTime" jdbcType="DECIMAL"/>
+        <result column="NEXT_FIRE_TIME" property="nextFireTime" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <select id="getJobAndTriggerDetails" resultMap="BaseResultMap">
+        SELECT
+          t1.JOB_NAME,
+          t1.JOB_GROUP,
+          t1.JOB_CLASS_NAME,
+          t2.TRIGGER_NAME,
+          t2.TRIGGER_GROUP,
+          t2.TRIGGER_STATE,
+          t2.TRIGGER_TYPE,
+          t2.PREV_FIRE_TIME,
+          t2.NEXT_FIRE_TIME,
+          t3.CRON_EXPRESSION,
+          t3.TIME_ZONE_ID
+        FROM
+          qrtz_job_details t1, qrtz_triggers t2, qrtz_cron_triggers t3
+        WHERE t1.JOB_NAME = t2.JOB_NAME AND t2.TRIGGER_NAME = t3.TRIGGER_NAME
+              AND t2.TRIGGER_GROUP = t3.TRIGGER_GROUP
+    </select>
+
+</mapper>

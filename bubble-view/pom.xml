@@ -1,0 +1,179 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>bubble</artifactId>
+        <groupId>com.it.ymk</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.it.ymk</groupId>
+    <artifactId>bubble-view</artifactId>
+    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+
+    <name>bubble-view</name>
+    <url>http://maven.apache.org</url>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.it.ymk</groupId>
+            <artifactId>bubble-web</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.it.ymk</groupId>
+            <artifactId>bubble-component-schedule</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <!--环境配置-->
+    <profiles>
+        <!--开发环境-->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.activation>dev</profiles.activation>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <!--<build>
+                <filters>
+                    <filter>src/main/resources/dev/jdbc.properties</filter>
+                </filters>
+            </build>-->
+        </profile>
+
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.activation>test</profiles.activation>
+            </properties>
+            <!--<build>-->
+            <!--<filters>-->
+            <!--<filter>src/main/resources/test/jdbc.properties</filter>-->
+            <!--</filters>-->
+            <!--</build>-->
+        </profile>
+
+        <!--生产环境-->
+        <profile>
+            <id>product</id>
+            <properties>
+                <profiles.activation>pro</profiles.activation>
+            </properties>
+            <!--<build>
+                <filters>
+                    <filter>src/main/resources/pro/jdbc.properties</filter>
+                </filters>
+            </build>-->
+        </profile>
+    </profiles>
+
+    <build>
+        <finalName>bubble-view</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <!--指定打包时名称-->
+                    <warName>${name}_${profiles.activation}_${parent.version}</warName>
+                    <!-- 激活spring profile -->
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>**/web.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                    <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                    <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <formats>
+                        <format>xml</format>
+                    </formats>
+                    <check>
+                        <branchRate>0</branchRate>
+                        <lineRate>0</lineRate>
+                        <haltOnFailure>false</haltOnFailure>
+                        <totalBranchRate>0</totalBranchRate>
+                        <totalLineRate>0</totalLineRate>
+                        <packageLineRate>0</packageLineRate>
+                        <packageBranchRate>0</packageBranchRate>
+                        <regexes>
+                            <regex>
+                                <pattern>com.it.ymk.*</pattern>
+                                <branchRate>60</branchRate>
+                                <lineRate>80</lineRate>
+                            </regex>
+                        </regexes>
+                    </check>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>clean</goal>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+
+                <!-- **/*.properties 是指包括根目录或子目录所有properties类型的文件 -->
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+
+                <!-- 排除dev、test目录下的文件 -->
+                <excludes>
+                    <exclude>dev/*</exclude>
+                    <exclude>pro/*</exclude>
+                    <exclude>test/*</exclude>
+                </excludes>
+                <!--<filtering>true</filtering>-->
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 包含，若没有指定则默认为 activeByDefault 标签定义的profile -->
+                <includes>
+                    <include>${profiles.activation}/*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>

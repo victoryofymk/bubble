@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+
+
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <!-- ==========组件扫描告诉Spring 来扫描指定包下的类，并注册被@Component，@Controller，@Service，@Repository等注解标记的组件,配置后可以去掉<context:annotation-config />========== -->
+    <!--/spring-mv扫描-->
+    <context:component-scan base-package="com.it.ymk">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!-- ==<mvc:annotation-scan/>是告知Spring，我们启用注解驱动。然后Spring会自动为我们注册上面说到的几个Bean到工厂中，来处理我们的请求。== -->
+
+    <!--cxf-->
+    <import resource="cxf.xml"/>
+
+    <bean id="freemarkerConfig"
+          class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">0</prop>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="number_format">0.##########</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="classic_compatible">true</prop>
+                <prop key="template_exception_handler">ignore</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- ==========属性文件位置 ==========-->
+    <!-- 取${profiles.activation:dev}表示取${profiles.activation}的值，若没有则指定dev -->
+    <bean id="propertyConfig"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:${profiles.activation:dev}/jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+    <!--<context:property-placeholder location="classpath:config/${profiles.activation:dev}/jdbc.properties" ignore-unresolvable="true"/>-->
+    <!--<util:properties id="sysProp" location="file:${user.dir}/config/system.properties" />-->
+    <!--<util:properties id="attachment" location="file:${user.dir}/config/attachment/attachment.properties" />-->
+
+
+    <!-- ==========数据源 ========== -->
+    <bean id="dataSource_bubble" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+          destroy-method="close">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <property name="maxActive" value="${cpool.maxPoolSize}"/>
+        <property name="initialSize" value="${cpool.initialPoolSize}"/>
+        <property name="maxWait" value="1800000"/>
+        <property name="minIdle" value="1"/>
+
+        <property name="timeBetweenEvictionRunsMillis" value="3000"/>
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+
+        <property name="validationQuery" value="SELECT 'x' FROM DUAL"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+
+        <!-- 开启Druid的监控统计功能 -->
+        <property name="filters" value="stat"/>
+    </bean>
+
+
+    <!--spring和mybatis完美整合，不需要mybatis的配置文件-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource_bubble"/>
+        <property name="mapperLocations" value="classpath*:com/it/ymk/bubble/**/${jdbc.type}/*Mapper.xml"/>
+        <property name="typeAliasesPackage" value="com.it.ymk.bubble.*.entity"/>
+        <property name="plugins">
+            <list>
+                <!--<ref bean="myInterceptor" />-->
+                <!--<ref bean="searchInterceptor" />-->
+            </list>
+        </property>
+    </bean>
+
+    <!-- 自动扫描mapper接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.it.ymk.bubble.**.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+    </bean>
+
+    <!-- Spring事务管理 -->
+    <bean id="bubbleTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource_bubble"/>
+    </bean>
+
+    <bean id="bubbleTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="bubbleTransactionManager"/>
+        <!--ISOLATION_DEFAULT 表示由使用的数据库决定  -->
+        <!--<property name="isolationLevelName" value="ISOLATION_DEFAULT"/>
+        <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>-->
+        <!-- <property name="timeout" value="30"/> -->
+    </bean>
+
+    <!-- 配置 Annotation 驱动，定义事务,Spring事务管理使用注解驱动 -->
+    <tx:annotation-driven transaction-manager="bubbleTransactionManager" proxy-target-class="true"/>
+</beans>
+
