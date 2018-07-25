@@ -1,11 +1,38 @@
 /**
+ * 自执行
  * Created by yanmingkun on 2017/5/19.
  */
 $(function () {
+
+    /**
+     * 扩展
+     */
+    $.extend({
+        remind: function (options) {
+            var _msg = '<div style="width:100%;">';
+            if (options.icon != undefined) {
+                _msg += '<div class="messager-icon messager-' + options.icon + '"></div>';
+            }
+            if (options.msg != undefined) {
+                _msg += '<div style="word-break : break-all;">' + options.msg + '</div>';
+            }
+            _msg += '</div>';
+            options.msg = _msg;
+            $.messager.show(options);
+        }
+    });
+
+    /**
+     * 拓展panel、window、dialog onMove 拖动效果
+     * @type {easyuiPanelOnMove}
+     */
     $.fn.panel.defaults.onMove = easyuiPanelOnMove;
     $.fn.window.defaults.onMove = easyuiPanelOnMove;
     $.fn.dialog.defaults.onMove = easyuiPanelOnMove;
-    // 只可以输入数字 qxl 2016年11月2日19:35:47
+
+    /**
+     * 只可以输入数字
+     */
     $(".number").keydown(function () {
         var e = $(this).event || window.event;
         if (e == undefined) {
@@ -19,7 +46,10 @@ $(function () {
             return false;
         }
     });
-    // 只可以输入字母 qxl 2016年11月2日19:35:53
+
+    /**
+     * 只可以输入字母
+     */
     $(".alphabet").keydown(function () {
         var e = $(this).event || window.event;
         if (e == undefined) {
@@ -53,8 +83,6 @@ function easyuiPanelOnMove(left, top) {
     }
     var width = $(this).panel('options').width;
     var height = $(this).panel('options').height;
-    // var right = left + width;
-    // var buttom = top + height;
     var parentWidth = parentObj.width();
     var parentHeight = parentObj.height();
     if (parentObj.css("overflow") == "hidden") {
@@ -71,13 +99,12 @@ function easyuiPanelOnMove(left, top) {
     }
 };
 
-// 方法的作用为对于提醒类的信息 展示几秒后 提示框自动消失
 /**
+ * 方法的作用为对于提醒类的信息 展示几秒后 提示框自动消失
  * title:窗体的头 icon:提示内容的图标 info 成功 warning 警告 error 错误 msg: 提示内容 type:窗体的消失方式
  * fade 和slide time:
  */
 var toastr = function (title, icon, msg, type, time) {
-    //console.log(title,icon,msg,type,time);
     $.remind({
         title: title,
         icon: icon,
@@ -89,22 +116,7 @@ var toastr = function (title, icon, msg, type, time) {
             bottom: ''
         }
     });
-}
-$.extend({
-    remind: function (options) {
-        var _msg = '<div style="width:100%;">';
-        if (options.icon != undefined) {
-            _msg += '<div class="messager-icon messager-' + options.icon + '"></div>';
-        }
-        if (options.msg != undefined) {
-            _msg += '<div style="word-break : break-all;">' + options.msg + '</div>';
-        }
-        _msg += '</div>';
-        options.msg = _msg;
-        $.messager.show(options);
-    }
-});
-
+};
 
 /**
  * 判断字符串是否为空 true为空 false反之 此方法去掉了前后中间空格
@@ -158,7 +170,7 @@ Date.prototype.format = function (format) {
 
 
 /**
- * //根据pattern格式化时间，yyyy-MM-dd hh:mm:ss
+ * 根据pattern格式化时间，yyyy-MM-dd hh:mm:ss
  *
  * @param timeStr
  * @param pattern
@@ -173,7 +185,7 @@ function forTimeByPattern(timeStr, pattern) {
 };
 
 /**
- * 获取当前日期
+ * 获取当前日期，默认格式："yyyy-MM-dd hh:mm:ss"
  *
  * @param pattern
  * @returns {*}
@@ -186,7 +198,7 @@ function currentDate(pattern) {
 };
 
 /**
- * 获取服务器时间
+ * 获取服务器时间，格式：yyyy-MM-dd
  *
  * @returns {*}
  */
@@ -304,7 +316,12 @@ function goBack() {
 };
 
 
-//js对象复制
+/**
+ * js对象复制
+ *
+ * @param obj
+ * @returns {*}
+ */
 function clone(obj) {
     var o, obj;
     if (obj.constructor == Object) {
@@ -393,7 +410,7 @@ function delCookie(name) {
  * @returns {boolean} 状态
  * @constructor
  */
-function SetCookie(name, value) {
+function setCookie(name, value) {
     var exp = new Date();
     exp.setTime(exp.getTime() + 6 * 24 * 60 * 60 * 1000); //6天过期
     document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
