@@ -16,6 +16,8 @@
         <module>bubble-component-email</module>
         <module>bubble-component-schedule</module>
         <module>bubble-component-codetools</module>
+        <module>bubble-component-imageprocess</module>
+        <module>bubble-component-cucumber</module>
     </modules>
 
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bubble-component</artifactId>
+        <groupId>com.it.ymk</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>bubble-component-imageprocess</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-ws-client</artifactId>
+            <!-- 推荐使用和SonarQube server相同的版本-->
+            <version>5.1</version>
+        </dependency>
+        <!--ocr-->
+        <dependency>
+            <groupId>com.asprise.ocr</groupId>
+            <artifactId>java-ocr-api</artifactId>
+            <version>[15,)</version>
+        </dependency>
+        <!--图片处理-->
+        <dependency>
+            <groupId>com.jhlabs</groupId>
+            <artifactId>filters</artifactId>
+            <version>2.0.235</version>
+        </dependency>
+
+    </dependencies>
+</project>
