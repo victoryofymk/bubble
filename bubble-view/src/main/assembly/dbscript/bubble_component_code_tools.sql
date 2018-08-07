@@ -6,12 +6,18 @@ CREATE TABLE `datasource_config` (
   `dc_id`        int(11) NOT NULL AUTO_INCREMENT,
   `driver_class` varchar(50)      DEFAULT NULL
   COMMENT '数据库驱动',
-  `db_name`      varchar(50)      DEFAULT NULL,
-  `ip`           varchar(50)      DEFAULT NULL,
-  `port`         int(11)          DEFAULT NULL,
-  `username`     varchar(50)      DEFAULT NULL,
-  `password`     varchar(50)      DEFAULT NULL,
-  `back_user`    varchar(20)      DEFAULT NULL,
+  `db_name`      varchar(50)      DEFAULT NULL
+  COMMENT '数据库名称',
+  `ip`           varchar(50)      DEFAULT NULL
+  COMMENT '数据库地址',
+  `port`         int(11)          DEFAULT NULL
+  COMMENT '数据库端口',
+  `username`     varchar(50)      DEFAULT NULL
+  COMMENT '数据库用户名',
+  `password`     varchar(50)      DEFAULT NULL
+  COMMENT '数据库密码',
+  `description`  varchar(200)     DEFAULT NULL
+  COMMENT '数据库藐视',
   PRIMARY KEY (`dc_id`)
 )
   ENGINE = InnoDB
@@ -21,7 +27,7 @@ CREATE TABLE `datasource_config` (
 /*Data for the table `datasource_config` */
 
 insert into `datasource_config`
-(`dc_id`, `driver_class`, `db_name`, `ip`, `port`, `username`, `password`, `back_user`)
+(`dc_id`, `driver_class`, `db_name`, `ip`, `port`, `username`, `password`, `description`)
 values (4, 'com.mysql.jdbc.Driver', 'auto_code', 'localhost', 3306, 'root', 'root', 'admin'),
   (6, 'com.mysql.jdbc.Driver', 'rms', 'localhost', 3306, 'root', 'root', 'admin'),
   (9, 'com.mysql.jdbc.Driver', 'stu', 'localhost', 3306, 'root', 'root', 'admin'),
