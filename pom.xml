@@ -13,7 +13,6 @@
         <module>bubble-dao</module>
         <module>bubble-core</module>
         <module>bubble-web</module>
-        <module>bubble-common</module>
         <module>bubble-component</module>
     </modules>
 
