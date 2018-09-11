@@ -34,14 +34,6 @@
 
     <!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
     <repositories>
-        <!--<repository>
-            <id>nexus-releases</id>
-            <name>私服</name>
-            <url>http://10.12.3.121:8081/nexus/content/groups/public</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>-->
         <repository>
             <id>apache-central-repos</id>
             <name>Apache Central Repository</name>
@@ -50,7 +42,6 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-
         <repository>
             <id>jboss-repos</id>
             <name>jboss Repository</name>
@@ -125,6 +116,26 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.8.3</version>
+        </dependency>
 
         <!-- CXF -->
         <dependency>
@@ -190,26 +201,25 @@
 
         <!-- 天猫抓取以来 -->
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20151123</version>
         </dependency>
         <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.2</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-exec</artifactId>
+            <version>1.3</version>
         </dependency>
+        <!-- 天猫抓取以来 -->
 
+        <!--jdom-->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.7.2</version>
         </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20151123</version>
-        </dependency>
+
+        <!--测试-->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
@@ -218,6 +228,7 @@
         <dependency>
             <groupId>com.opera</groupId>
             <artifactId>operadriver</artifactId>
+            <version>0.16</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.webdriver</groupId>
@@ -229,11 +240,8 @@
             <artifactId>webdriver-firefox</artifactId>
             <version>0.9.7376</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-exec</artifactId>
-            <version>1.3</version>
-        </dependency>
+
+        <!--json对象-->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
@@ -249,17 +257,6 @@
             <artifactId>ezmorph</artifactId>
             <version>1.0.6</version>
         </dependency>
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.8.3</version>
-        </dependency>
-        <!-- 天猫抓取以来 -->
 
         <!--mybatis-->
         <dependency>
@@ -304,22 +301,7 @@
             <version>5.0.0</version>
         </dependency>
 
-    </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.opera</groupId>
-                <artifactId>operadriver</artifactId>
-                <version>0.16</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.seleniumhq.selenium</groupId>
-                        <artifactId>selenium-remote-driver</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    </dependencies>
 
 </project>
