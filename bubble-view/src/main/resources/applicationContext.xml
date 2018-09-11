@@ -16,6 +16,7 @@
     <context:component-scan base-package="com.it.ymk">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
+
     <!-- ==<mvc:annotation-scan/>是告知Spring，我们启用注解驱动。然后Spring会自动为我们注册上面说到的几个Bean到工厂中，来处理我们的请求。== -->
 
     <!--cxf-->
@@ -50,6 +51,8 @@
     <!--<util:properties id="sysProp" location="file:${user.dir}/config/system.properties" />-->
     <!--<util:properties id="attachment" location="file:${user.dir}/config/attachment/attachment.properties" />-->
 
+    <!--引入组件-->
+    <import resource="classpath:applicationContext-component-schedule.xml"/>
 
     <!-- ==========数据源 ========== -->
     <bean id="dataSource_bubble" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
@@ -78,9 +81,27 @@
 
     <!--spring和mybatis完美整合，不需要mybatis的配置文件-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
         <property name="dataSource" ref="dataSource_bubble"/>
-        <property name="mapperLocations" value="classpath*:com/it/ymk/bubble/**/${jdbc.type}/*Mapper.xml"/>
-        <property name="typeAliasesPackage" value="com.it.ymk.bubble.*.entity"/>
+
+        <!--不需要单独配置mybatis配置文件 -->
+        <!-- <property name="configLocation">
+             <array>
+                 <value>classpath*:mybatis-config.xml</value>
+             </array>
+         </property>-->
+
+        <!--<property name="mapperLocations" value="classpath*:com/it/ymk/bubble/core/${jdbc.type}/*Mapper.xml"/>-->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:com/it/ymk/bubble/core/${jdbc.type}/*Mapper.xml</value>
+                <value>classpath*:com/it/ymk/bubble/component/${jdbc.type}/*Mapper.xml</value>
+            </list>
+        </property>
+
+        <property name="typeAliasesPackage"
+                  value="com.it.ymk.bubble.core.entity,com.it.ymk.bubble.component.schedule.entity"/>
+
         <property name="plugins">
             <list>
                 <!--<ref bean="myInterceptor" />-->
@@ -89,11 +110,19 @@
         </property>
     </bean>
 
-    <!-- 自动扫描mapper接口 -->
+    <!-- 创建Mybatis访问数据库的模板类，mybatis-spring效仿Spring的风格提供了一个模板类SQLSessionTemplate,可以通过模板轻松的访问数据库 -->
+    <bean class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 自动扫描mapper接口，查找类路径下的映射器并自动将它们创建成MapperFactoryBean -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.it.ymk.bubble.**.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
     </bean>
+
+    <!-- 配置 Annotation 驱动，定义事务,Spring事务管理使用注解驱动 -->
+    <tx:annotation-driven transaction-manager="bubbleTransactionManager" proxy-target-class="true"/>
 
     <!-- Spring事务管理 -->
     <bean id="bubbleTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -107,8 +136,5 @@
         <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>-->
         <!-- <property name="timeout" value="30"/> -->
     </bean>
-
-    <!-- 配置 Annotation 驱动，定义事务,Spring事务管理使用注解驱动 -->
-    <tx:annotation-driven transaction-manager="bubbleTransactionManager" proxy-target-class="true"/>
 </beans>
 
