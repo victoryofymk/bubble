@@ -1,28 +1,22 @@
-package com.it.ymk.bubble.web.controller.rest;
+package com.it.ymk.bubble.web.service.ws;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import javax.jws.WebService;
 
 import org.springframework.stereotype.Component;
 
+import com.it.ymk.bubble.web.service.ArrayListWrapper;
+
 /**
  * @author yanmingkun
- * @date 2018-01-08 19:25
+ * @date 2018-09-12 11:39
  */
-@Component("restServiceDemoImpl")
-public class RestServiceDemoImpl {
-    /**
-     *获取资源的列表，用复数的形式，GET方法
-     **/
-    @Path("/")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
+@Component //由Spring管理
+@WebService
+public class WebserviceImpl {
     public List<HashMap> getCarList() throws Exception {
         //方法名可以根据业务等取名,查询是的参数放入对象中，但是在开发的时候遇到的问题是获取列表的种类多种多样，
         //获取的时候，需要在service中进行复杂判断
@@ -34,5 +28,4 @@ public class RestServiceDemoImpl {
         w.myArray = resultList;
         return resultList;
     }
-
 }

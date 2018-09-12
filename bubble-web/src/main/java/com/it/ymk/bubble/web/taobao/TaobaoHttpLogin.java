@@ -1,4 +1,4 @@
-package taobao;
+package com.it.ymk.bubble.web.taobao;
 
 import java.io.File;
 import java.io.IOException;
@@ -121,7 +121,8 @@ public class TaobaoHttpLogin {
 
     public static String getCodeUrl(String TPL_username) {
         CloseableHttpClient httpClient = createSSLClientDefault(true);
-        HttpPost hp = new HttpPost("https://login.com.taobao.com/member/request_nick_check.do?_input_charset=utf-8");
+        HttpPost hp = new HttpPost(
+            "https://login.com.com.it.ymk.bubble.web.taobao.com/member/request_nick_check.do?_input_charset=utf-8");
         headerWrapper(hp);
         hp.setHeader("Accept", "application/json, text/javascript, */*; q=0.01");
         List<NameValuePair> params = new ArrayList<NameValuePair>();

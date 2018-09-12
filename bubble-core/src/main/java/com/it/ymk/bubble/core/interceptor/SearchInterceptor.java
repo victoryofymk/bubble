@@ -13,7 +13,9 @@ import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
+import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.ReflectorFactory;
 import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
 import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
@@ -51,6 +53,7 @@ public class SearchInterceptor implements Interceptor {
     private String                            databaseType;                                                                                                                // 数据库类型，不同的数据库有不同的分页方法
     private static final ObjectFactory        DEFAULT_OBJECT_FACTORY         = new DefaultObjectFactory();
     private static final ObjectWrapperFactory DEFAULT_OBJECT_WRAPPER_FACTORY = new DefaultObjectWrapperFactory();
+    private static final ReflectorFactory     DEFAULT_REFLECTOR_FACTORY      = new DefaultReflectorFactory();
     private static final String               ROOT_SQL_NODE                  = "sqlSource.rootSqlNode";
 
     @Override
@@ -58,7 +61,7 @@ public class SearchInterceptor implements Interceptor {
         Object parameter = invocation.getArgs()[1];
         MappedStatement statement = (MappedStatement) invocation.getArgs()[0];
         MetaObject metaMappedStatement = MetaObject.forObject(statement, DEFAULT_OBJECT_FACTORY,
-            DEFAULT_OBJECT_WRAPPER_FACTORY);
+            DEFAULT_OBJECT_WRAPPER_FACTORY, DEFAULT_REFLECTOR_FACTORY);
         BoundSql boundSql = statement.getBoundSql(parameter);
         if (metaMappedStatement.hasGetter(ROOT_SQL_NODE)) {
             //修改参数值

@@ -1,4 +1,4 @@
-package taobao;
+package com.it.ymk.bubble.web.taobao;
 
 import java.util.ArrayList;
 import java.util.List;

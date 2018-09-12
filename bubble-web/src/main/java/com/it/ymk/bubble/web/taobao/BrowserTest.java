@@ -1,4 +1,4 @@
-package taobao;//package per.son.com.taobao;
+package com.it.ymk.bubble.web.taobao;//package per.son.com.com.it.ymk.bubble.web.taobao;
 
 //
 //import java.net.MalformedURLException;

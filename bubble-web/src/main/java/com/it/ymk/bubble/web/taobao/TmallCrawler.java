@@ -1,4 +1,4 @@
-package taobao;
+package com.it.ymk.bubble.web.taobao;
 
 import java.io.IOException;
 import java.util.*;
@@ -68,7 +68,7 @@ public class TmallCrawler {
              * webDriver = new FirefoxDriver(profile);
              */
             webDriver = new ChromeDriver();
-            webDriver.get("https://login.com.taobao.com/member/login.jhtml?qrLogin=false");
+            webDriver.get("https://login.com.com.it.ymk.bubble.web.taobao.com/member/login.jhtml?qrLogin=false");
             // 输入用户名
             webDriver.findElement(By.id("TPL_username_1")).clear();
             webDriver.findElement(By.id("TPL_username_1")).sendKeys(name);
@@ -134,7 +134,8 @@ public class TmallCrawler {
                 while (true) {
                     Thread.sleep(500L);
                     if (!webDriver.getCurrentUrl()
-                        .startsWith("https://login.com.taobao.com/member/login.jhtml?qrLogin=false")) {
+                        .startsWith(
+                            "https://login.com.com.it.ymk.bubble.web.taobao.com/member/login.jhtml?qrLogin=false")) {
                         break;
                     }
                 }
@@ -173,7 +174,7 @@ public class TmallCrawler {
         // List<NameValuePair> params = new ArrayList<NameValuePair>();
         // params.add(new BasicNameValuePair("cookie", cookieStr));
         CloseableHttpClient httpClient = TaobaoHttpLogin.createSSLClientDefault(true);
-        String collection = "https://shoucang.com.taobao.com/shop_collect_n.htm?type=0&tab=0&ifAllTag=0";
+        String collection = "https://shoucang.com.com.it.ymk.bubble.web.taobao.com/shop_collect_n.htm?type=0&tab=0&ifAllTag=0";
         HttpGet hg1 = new HttpGet(collection);
         hg1.addHeader("cookie", cookieStr);
         TaobaoHttpLogin.headerWrapper(hg1);
@@ -373,7 +374,7 @@ public class TmallCrawler {
         // HttpGet httpGet = new
         // HttpGet("https://detail.tmall.com/item.htm?spm=a220m.1000858.1000725.25.L9vk3J&id=531977192076&skuId=3173113378812&cat_id=2&rn=9b949e43091eda408777622fe6c99ea1&standard=1&user_id=881078398&is_b=1");
         HttpGet httpGet = new HttpGet(
-            "https://mdskip.com.taobao.com/core/initItemDetail.htm?tmallBuySupport=true&isForbidBuyItem=false&isApparel=false&sellerPreview=false&household=false&isPurchaseMallPage=false&queryMemberRight=true&itemId=531977192076&isRegionLevel=false&offlineShop=false&tryBeforeBuy=false&cartEnable=true&service3C=true&isSecKill=false&cachedTimestamp=1474347776168&isUseInventoryCenter=false&addressLevel=2&isAreaSell=false&showShopProm=false");
+            "https://mdskip.com.com.it.ymk.bubble.web.taobao.com/core/initItemDetail.htm?tmallBuySupport=true&isForbidBuyItem=false&isApparel=false&sellerPreview=false&household=false&isPurchaseMallPage=false&queryMemberRight=true&itemId=531977192076&isRegionLevel=false&offlineShop=false&tryBeforeBuy=false&cartEnable=true&service3C=true&isSecKill=false&cachedTimestamp=1474347776168&isUseInventoryCenter=false&addressLevel=2&isAreaSell=false&showShopProm=false");
         TaobaoHttpLogin.headerWrapper(httpGet);
         httpGet.setHeader("accept-Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
         httpGet.addHeader("Referer",
@@ -432,7 +433,7 @@ public class TmallCrawler {
     }
 
     public static void main(String[] args) throws Exception {
-        String str = getRedirectUrl("//store.com.taobao.com/?shop_id=254566010&scm=");
+        String str = getRedirectUrl("//store.com.com.it.ymk.bubble.web.taobao.com/?shop_id=254566010&scm=");
         System.out.println(str);
         /*
          * String cookieStore =

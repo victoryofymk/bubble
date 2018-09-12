@@ -1,4 +1,4 @@
-package com.it.ymk.bubble.web.controller.rest;
+package com.it.ymk.bubble.web.service;
 
 import java.util.ArrayList;
 import java.util.HashMap;

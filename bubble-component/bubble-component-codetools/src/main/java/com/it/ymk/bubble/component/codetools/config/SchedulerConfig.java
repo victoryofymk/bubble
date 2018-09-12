@@ -35,7 +35,7 @@ public class SchedulerConfig {
         return propertiesFactoryBean.getObject();
     }
 
-    /*
+    /**
      * quartz初始化监听器
      */
     @Bean
@@ -43,7 +43,7 @@ public class SchedulerConfig {
         return new QuartzInitializerListener();
     }
 
-    /*
+    /**
      * 通过SchedulerFactoryBean获取Scheduler的实例
      */
     @Bean(name = "Scheduler")

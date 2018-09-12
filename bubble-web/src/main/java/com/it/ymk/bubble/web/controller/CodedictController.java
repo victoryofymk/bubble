@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.it.ymk.bubble.dao.pojo.Car;
-import com.it.ymk.bubble.web.controller.rest.RestServiceDemoImpl;
+import com.it.ymk.bubble.web.service.rest.RestServiceDemoImpl;
 
 /**
  * @author yanmingkun
