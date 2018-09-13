@@ -1,4 +1,4 @@
-package com.it.ymk.bubble.web.controller;
+package com.it.ymk.bubble.core.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

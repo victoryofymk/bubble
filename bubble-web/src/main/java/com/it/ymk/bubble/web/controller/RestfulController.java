@@ -12,12 +12,14 @@ import com.it.ymk.bubble.dao.pojo.Car;
 import com.it.ymk.bubble.web.service.rest.RestServiceDemoImpl;
 
 /**
+ * resful风格
+ *
  * @author yanmingkun
  * @date 2018-01-08 17:45
  */
 @RestController
 @RequestMapping("/v1")
-public class CodedictController {
+public class RestfulController {
 
     @Autowired
     RestServiceDemoImpl restServiceDemo;

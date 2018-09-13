@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * freemarker实现前端模板
+ *
  * @author yanmingkun
  * @date 2018-09-12 15:05
  */
