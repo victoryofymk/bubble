@@ -6,7 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.it.ymk.bubble.core.utils.ErrorUtil;
 
 /**
  * @author yanmingkun
@@ -21,6 +24,18 @@ public class Application {
     @GetMapping("/")
     @ResponseBody
     public String index() {
+        return "Hello Spring Boot World!";
+    }
+
+    /**
+     * 异常访问
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/errorIndex")
+    @ResponseBody
+    public String testError() throws Exception {
+        ErrorUtil.randomException();
         return "Hello Spring Boot World!";
     }
 
