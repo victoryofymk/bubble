@@ -3,125 +3,258 @@ package com.it.ymk.bubble.component.schedule.entity;
 import java.math.BigInteger;
 
 /**
+ * The type Job and trigger.
+ *
  * @author yanmingkun
- * @date 2018-01-19 09:41
+ * @date 2018 -01-19 09:41
  */
 public class JobAndTrigger {
-    private String     JOB_NAME;
-    private String     JOB_GROUP;
-    private String     JOB_CLASS_NAME;
-    private String     TRIGGER_NAME;
-    private String     TRIGGER_GROUP;
-    private BigInteger REPEAT_INTERVAL;
-    private BigInteger TIMES_TRIGGERED;
-    private String     CRON_EXPRESSION;
-    private String     TIME_ZONE_ID;
+    private String     jobName;
+    private String     jobGroup;
+    private String     jobClassName;
+    private String     triggerName;
+    private String     triggerGroup;
+    private BigInteger repeatInterval;
+    private BigInteger timesTriggered;
+    private String     cronExpression;
+    private String     timeZoneId;
     private String     triggerStatus;
     private String     triggerType;
     private BigInteger prevFireTime;
     private BigInteger nextFireTime;
 
-    public String getJOB_NAME() {
-        return JOB_NAME;
+    /**
+     * Gets job name.
+     *
+     * @return the job name
+     */
+    public String getJobName() {
+        return jobName;
     }
 
-    public void setJOB_NAME(String jOB_NAME) {
-        JOB_NAME = jOB_NAME;
+    /**
+     * Sets job name.
+     *
+     * @param jobName the job name
+     */
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
     }
 
-    public String getJOB_GROUP() {
-        return JOB_GROUP;
+    /**
+     * Gets job group.
+     *
+     * @return the job group
+     */
+    public String getJobGroup() {
+        return jobGroup;
     }
 
-    public void setJOB_GROUP(String jOB_GROUP) {
-        JOB_GROUP = jOB_GROUP;
+    /**
+     * Sets job group.
+     *
+     * @param jobGroup the job group
+     */
+    public void setJobGroup(String jobGroup) {
+        this.jobGroup = jobGroup;
     }
 
-    public String getJOB_CLASS_NAME() {
-        return JOB_CLASS_NAME;
+    /**
+     * Gets job class name.
+     *
+     * @return the job class name
+     */
+    public String getJobClassName() {
+        return jobClassName;
     }
 
-    public void setJOB_CLASS_NAME(String jOB_CLASS_NAME) {
-        JOB_CLASS_NAME = jOB_CLASS_NAME;
+    /**
+     * Sets job class name.
+     *
+     * @param jobClassName the job class name
+     */
+    public void setJobClassName(String jobClassName) {
+        this.jobClassName = jobClassName;
     }
 
-    public String getTRIGGER_NAME() {
-        return TRIGGER_NAME;
+    /**
+     * Gets trigger name.
+     *
+     * @return the trigger name
+     */
+    public String getTriggerName() {
+        return triggerName;
     }
 
-    public void setTRIGGER_NAME(String tRIGGER_NAME) {
-        TRIGGER_NAME = tRIGGER_NAME;
+    /**
+     * Sets trigger name.
+     *
+     * @param triggerName the trigger name
+     */
+    public void setTriggerName(String triggerName) {
+        this.triggerName = triggerName;
     }
 
-    public String getTRIGGER_GROUP() {
-        return TRIGGER_GROUP;
+    /**
+     * Gets trigger group.
+     *
+     * @return the trigger group
+     */
+    public String getTriggerGroup() {
+        return triggerGroup;
     }
 
-    public void setTRIGGER_GROUP(String tRIGGER_GROUP) {
-        TRIGGER_GROUP = tRIGGER_GROUP;
+    /**
+     * Sets trigger group.
+     *
+     * @param triggerGroup the trigger group
+     */
+    public void setTriggerGroup(String triggerGroup) {
+        this.triggerGroup = triggerGroup;
     }
 
-    public BigInteger getREPEAT_INTERVAL() {
-        return REPEAT_INTERVAL;
+    /**
+     * Gets repeat interval.
+     *
+     * @return the repeat interval
+     */
+    public BigInteger getRepeatInterval() {
+        return repeatInterval;
     }
 
-    public void setREPEAT_INTERVAL(BigInteger rEPEAT_INTERVAL) {
-        REPEAT_INTERVAL = rEPEAT_INTERVAL;
+    /**
+     * Sets repeat interval.
+     *
+     * @param repeatInterval the repeat interval
+     */
+    public void setRepeatInterval(BigInteger repeatInterval) {
+        this.repeatInterval = repeatInterval;
     }
 
-    public BigInteger getTIMES_TRIGGERED() {
-        return TIMES_TRIGGERED;
+    /**
+     * Gets times triggered.
+     *
+     * @return the times triggered
+     */
+    public BigInteger getTimesTriggered() {
+        return timesTriggered;
     }
 
-    public void setTIMES_TRIGGERED(BigInteger tIMES_TRIGGERED) {
-        TIMES_TRIGGERED = tIMES_TRIGGERED;
+    /**
+     * Sets times triggered.
+     *
+     * @param timesTriggered the times triggered
+     */
+    public void setTimesTriggered(BigInteger timesTriggered) {
+        this.timesTriggered = timesTriggered;
     }
 
-    public String getCRON_EXPRESSION() {
-        return CRON_EXPRESSION;
+    /**
+     * Gets cron expression.
+     *
+     * @return the cron expression
+     */
+    public String getCronExpression() {
+        return cronExpression;
     }
 
-    public void setCRON_EXPRESSION(String cRON_EXPRESSION) {
-        CRON_EXPRESSION = cRON_EXPRESSION;
+    /**
+     * Sets cron expression.
+     *
+     * @param cronExpression the cron expression
+     */
+    public void setCronExpression(String cronExpression) {
+        this.cronExpression = cronExpression;
     }
 
-    public String getTIME_ZONE_ID() {
-        return TIME_ZONE_ID;
+    /**
+     * Gets time zone id.
+     *
+     * @return the time zone id
+     */
+    public String getTimeZoneId() {
+        return timeZoneId;
     }
 
-    public void setTIME_ZONE_ID(String tIME_ZONE_ID) {
-        TIME_ZONE_ID = tIME_ZONE_ID;
+    /**
+     * Sets time zone id.
+     *
+     * @param timeZoneId the time zone id
+     */
+    public void setTimeZoneId(String timeZoneId) {
+        this.timeZoneId = timeZoneId;
     }
 
+    /**
+     * Gets trigger status.
+     *
+     * @return the trigger status
+     */
     public String getTriggerStatus() {
         return triggerStatus;
     }
 
+    /**
+     * Sets trigger status.
+     *
+     * @param triggerStatus the trigger status
+     */
     public void setTriggerStatus(String triggerStatus) {
         this.triggerStatus = triggerStatus;
     }
 
+    /**
+     * Gets trigger type.
+     *
+     * @return the trigger type
+     */
     public String getTriggerType() {
         return triggerType;
     }
 
+    /**
+     * Sets trigger type.
+     *
+     * @param triggerType the trigger type
+     */
     public void setTriggerType(String triggerType) {
         this.triggerType = triggerType;
     }
 
+    /**
+     * Gets prev fire time.
+     *
+     * @return the prev fire time
+     */
     public BigInteger getPrevFireTime() {
         return prevFireTime;
     }
 
+    /**
+     * Sets prev fire time.
+     *
+     * @param prevFireTime the prev fire time
+     */
     public void setPrevFireTime(BigInteger prevFireTime) {
         this.prevFireTime = prevFireTime;
     }
 
+    /**
+     * Gets next fire time.
+     *
+     * @return the next fire time
+     */
     public BigInteger getNextFireTime() {
         return nextFireTime;
     }
 
+    /**
+     * Sets next fire time.
+     *
+     * @param nextFireTime the next fire time
+     */
     public void setNextFireTime(BigInteger nextFireTime) {
         this.nextFireTime = nextFireTime;
     }
+
 }

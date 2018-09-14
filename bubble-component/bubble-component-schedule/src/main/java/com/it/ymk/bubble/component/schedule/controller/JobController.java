@@ -100,7 +100,7 @@ public class JobController {
     @RequestMapping(value = "/pauseBatchJob")
     public void pauseBatchJob(List<JobAndTrigger> list) throws Exception {
         for (JobAndTrigger jobAndTrigger : list) {
-            pauseJob(JobKey.jobKey(jobAndTrigger.getJOB_CLASS_NAME(), jobAndTrigger.getJOB_GROUP()));
+            pauseJob(JobKey.jobKey(jobAndTrigger.getJobClassName(), jobAndTrigger.getJobGroup()));
         }
     }
 
@@ -126,7 +126,7 @@ public class JobController {
     @RequestMapping(value = "/resumeBatchJob")
     public void resumeSingleJob(List<JobAndTrigger> list) throws Exception {
         for (JobAndTrigger jobAndTrigger : list) {
-            resumeJob(JobKey.jobKey(jobAndTrigger.getJOB_CLASS_NAME(), jobAndTrigger.getJOB_GROUP()));
+            resumeJob(JobKey.jobKey(jobAndTrigger.getJobClassName(), jobAndTrigger.getJobGroup()));
         }
     }
 
@@ -154,7 +154,7 @@ public class JobController {
     public void deleteBatchJob(List<JobAndTrigger> list) throws Exception {
         List<JobKey> jobKeyList = new ArrayList<JobKey>();
         for (JobAndTrigger jobAndTrigger : list) {
-            jobKeyList.add(JobKey.jobKey(jobAndTrigger.getJOB_CLASS_NAME(), jobAndTrigger.getJOB_GROUP()));
+            jobKeyList.add(JobKey.jobKey(jobAndTrigger.getJobClassName(), jobAndTrigger.getJobGroup()));
         }
         deleteJobs(jobKeyList);
     }

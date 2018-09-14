@@ -3,13 +3,13 @@
 <mapper namespace="com.it.ymk.bubble.component.schedule.dao.JobAndTriggerMapper">
 
     <resultMap id="BaseResultMap" type="com.it.ymk.bubble.component.schedule.entity.JobAndTrigger">
-        <result column="JOB_NAME" property="JOB_NAME" jdbcType="VARCHAR"/>
-        <result column="JOB_GROUP" property="JOB_GROUP" jdbcType="VARCHAR"/>
-        <result column="JOB_CLASS_NAME" property="JOB_CLASS_NAME" jdbcType="VARCHAR"/>
-        <result column="TRIGGER_NAME" property="TRIGGER_NAME" jdbcType="VARCHAR"/>
-        <result column="TRIGGER_GROUP" property="TRIGGER_NAME" jdbcType="VARCHAR"/>
-        <result column="CRON_EXPRESSION" property="CRON_EXPRESSION" jdbcType="VARCHAR"/>
-        <result column="TIME_ZONE_ID" property="TIME_ZONE_ID" jdbcType="VARCHAR"/>
+        <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR"/>
+        <result column="JOB_GROUP" property="jobGroup" jdbcType="VARCHAR"/>
+        <result column="JOB_CLASS_NAME" property="jobClassName" jdbcType="VARCHAR"/>
+        <result column="TRIGGER_NAME" property="triggerName" jdbcType="VARCHAR"/>
+        <result column="TRIGGER_GROUP" property="triggerGroup" jdbcType="VARCHAR"/>
+        <result column="CRON_EXPRESSION" property="cronExpression" jdbcType="VARCHAR"/>
+        <result column="TIME_ZONE_ID" property="timeZoneId" jdbcType="VARCHAR"/>
         <result column="TRIGGER_STATE" property="triggerStatus" jdbcType="VARCHAR"/>
         <result column="TRIGGER_TYPE" property="triggerType" jdbcType="VARCHAR"/>
         <result column="PREV_FIRE_TIME" property="prevFireTime" jdbcType="DECIMAL"/>
