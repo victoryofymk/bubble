@@ -20,10 +20,16 @@ import com.it.ymk.bubble.component.schedule.entity.JobAndTrigger;
 import com.it.ymk.bubble.component.schedule.job.BaseJob;
 import com.it.ymk.bubble.component.schedule.service.IJobAndTriggerService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @author yanmingkun
  * @date 2018-01-18 20:52
  */
+@Api("Quartz定时任务管理")
 @RestController
 @RequestMapping(value = "/job")
 public class JobController {
@@ -41,6 +47,10 @@ public class JobController {
      * @param cronExpression
      * @throws Exception
      */
+    @ApiOperation(" 新增一个job")
+    @ApiImplicitParams({ @ApiImplicitParam(name = "jobClassName", value = "任务class名称", dataType = "String"),
+                         @ApiImplicitParam(name = "jobGroupName", value = "任务分组名称", dataType = "String"),
+                         @ApiImplicitParam(name = "cronExpression", value = "任务时间表达式  ", dataType = "String") })
     @RequestMapping(value = "/addSingleJob")
     public void addSingleJob(@RequestParam(value = "jobClassName") String jobClassName,
         @RequestParam(value = "jobGroupName") String jobGroupName,

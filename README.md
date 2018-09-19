@@ -1,4 +1,8 @@
-#框架
+#同样框架
+
+##项目介绍
+
+springboot 集成 mybatis、quartzs、swagger-ui等通用组件，精简配置文件。
 
 ##前端
 
@@ -10,6 +14,9 @@ requirejs
 
 ###grid
 easyuigrid
+
+###资源访问
+META_INF/resources 下面的静态资源文件可以覆盖引用的 jar 保重的资源文件
 
 扩展：
 跨页勾选
