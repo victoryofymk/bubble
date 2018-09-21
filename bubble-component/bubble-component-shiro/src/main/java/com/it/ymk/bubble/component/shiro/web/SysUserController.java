@@ -1,6 +1,7 @@
 package com.it.ymk.bubble.component.shiro.web;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,7 +18,9 @@ public class SysUserController {
      */
     @RequestMapping("/userList")
     @RequiresPermissions("userInfo:view") //权限管理;
+    @Cacheable(value = "user-key")
     public String userInfo() {
+        System.out.println("若下面没出现“无缓存的时候调用”字样且能打印出数据表示测试成功");
         return "userInfo";
     }
 

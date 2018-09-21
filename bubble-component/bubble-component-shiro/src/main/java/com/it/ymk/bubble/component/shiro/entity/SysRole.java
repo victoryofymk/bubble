@@ -1,5 +1,6 @@
 package com.it.ymk.bubble.component.shiro.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import javax.persistence.*;
  * @date 2018-09-20 13:15
  */
 @Entity
-public class SysRole {
+public class SysRole implements Serializable {
     @Id
     @GeneratedValue
     private Integer             id;                        // 编号
