@@ -15,11 +15,21 @@ requirejs
 ###grid
 easyuigrid
 
+扩展：
+跨页勾选
+
 ###资源访问
 META_INF/resources 下面的静态资源文件可以覆盖引用的 jar 保重的资源文件
 
-扩展：
-跨页勾选
+spring boot默认加载文件的路径是
+/META-INF/resources/
+/resources/
+/static/
+/public/
+
+###WebJars统一管理静态资源
+
+
  
 ##后端
 

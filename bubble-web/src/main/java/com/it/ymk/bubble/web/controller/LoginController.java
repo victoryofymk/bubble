@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,12 +20,13 @@ import com.it.ymk.bubble.core.utils.CookieUtil;
 import com.it.ymk.bubble.dao.domain.UserVO;
 
 /**
- *  登录验证
+ *  登录验证，springMVC 使用
  *
  * @author Yanmingkun
  * @version $v:1.0, $time:2017-05-02, $id:LoginController.java, Exp $
  */
-@Controller
+//@Controller
+@Deprecated
 public class LoginController {
     @RequestMapping("/home")
     public String home(ModelAndView view) {

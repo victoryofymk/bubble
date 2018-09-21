@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.it.ymk.bubble.core.utils.ErrorUtil;
 
 /**
+ * springboot应用启动类，引用 cxf，使用mapper 扫描
+ *
  * @author yanmingkun
  * @date 2018-09-11 16:17
  */

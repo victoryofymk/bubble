@@ -18,6 +18,7 @@
         <module>bubble-component-codetools</module>
         <module>bubble-component-imageprocess</module>
         <module>bubble-component-cucumber</module>
+        <module>bubble-component-shiro</module>
     </modules>
 
 

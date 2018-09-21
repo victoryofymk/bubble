@@ -12,7 +12,7 @@ import com.it.ymk.bubble.dao.pojo.Car;
 import com.it.ymk.bubble.web.service.rest.RestServiceDemoImpl;
 
 /**
- * resful风格
+ * resful风格API
  *
  * @author yanmingkun
  * @date 2018-01-08 17:45
