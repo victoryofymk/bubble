@@ -1,18 +1,3 @@
--- 删除数据
-delete from sys_user_role;
-delete from sys_role_permission;
-delete from sys_permission;
-delete from sys_user;
-delete from sys_role;
-
--- 删除表
-drop table `sys_user_role`;
-drop table `sys_role_permission`;
-drop table `sys_permission`;
-drop table `sys_user`;
-drop table `sys_role`;
-
--- 放在 resources，目录下 import.sql 应用启动会自动执行，create，create-drop
 INSERT INTO `sys_user` (`uid`,`username`,`name`,`password`,`salt`,`state`) VALUES ('1', 'admin', '管理员', 'd3c59d25033dbf980d29554025c23a75', '8d78869f470951332959580424d4bf4f', 0);
 INSERT INTO `sys_permission` (`id`,`available`,`name`,`parent_id`,`parent_ids`,`permission`,`resource_type`,`url`) VALUES (1,0,'用户管理',0,'0/','userInfo:view','menu','userInfo/userList');
 INSERT INTO `sys_permission` (`id`,`available`,`name`,`parent_id`,`parent_ids`,`permission`,`resource_type`,`url`) VALUES (2,0,'用户添加',1,'0/1','userInfo:add','button','userInfo/userAdd');
