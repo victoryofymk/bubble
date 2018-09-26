@@ -7,7 +7,7 @@
        http://cxf.apache.org/jaxrs
        http://cxf.apache.org/schemas/jaxrs.xsd">
 
-    <bean id="restService" class="com.it.ymk.bubble.springboot.web.web.service.rest.RestServiceDemoImpl">
+    <bean id="restService" class="com.it.ymk.bubble.web.service.rest.RestServiceDemoImpl">
     </bean>
 
     <jaxrs:server id="restContainer" address="/rs">

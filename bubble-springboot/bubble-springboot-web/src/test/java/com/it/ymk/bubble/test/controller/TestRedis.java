@@ -12,8 +12,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.it.ymk.bubble.Application;
 import com.it.ymk.bubble.core.mybatis.annotation.User;
-import com.it.ymk.bubble.springboot.web.Application;
 
 /**
  * @author yanmingkun
