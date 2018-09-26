@@ -20,11 +20,11 @@
     </parent>
 
     <modules>
-        <module>bubble-view</module>
         <module>bubble-dao</module>
         <module>bubble-core</module>
-        <module>bubble-web</module>
         <module>bubble-component</module>
+        <module>bubble-springcloud</module>
+        <module>bubble-springboot</module>
     </modules>
 
     <properties>
@@ -241,6 +241,7 @@
             <artifactId>ezmorph</artifactId>
             <version>1.0.6</version>
         </dependency>
+
         <!-- Jackson springboot去掉-->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -268,7 +269,6 @@
             <version>${jackson.version}</version>
         </dependency>
 
-
         <!--mybatis-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -281,37 +281,6 @@
             <groupId>tk.mybatis</groupId>
             <artifactId>mapper-spring-boot-starter</artifactId>
             <version>1.1.4</version>
-        </dependency>
-
-        <!--数据源-->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.0.23</version>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.32</version>
-        </dependency>
-
-        <!--定时任务-->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz-jobs</artifactId>
-            <version>2.2.1</version>
-        </dependency>
-
-        <!--page-->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-            <version>5.0.0</version>
         </dependency>
 
         <!--添加Swagger依赖 -->
@@ -334,36 +303,17 @@
             <version>23.0</version>
         </dependency>
 
-        <!--webjars-->
-        <dependency><!--Webjars版本定位工具（前端）-->
-            <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator-core</artifactId>
-        </dependency>
-
-        <dependency><!--Jquery组件（前端）-->
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>3.3.1</version>
-        </dependency>
-
-        <!--redis-->
+        <!--数据源-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.23</version>
         </dependency>
-
-        <!--session-->
         <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session-data-redis</artifactId>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.32</version>
         </dependency>
-
-        <!--自省和监控-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>

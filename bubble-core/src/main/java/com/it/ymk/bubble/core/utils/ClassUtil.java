@@ -246,7 +246,7 @@ public class ClassUtil {
 
     public static void main(String[] args) throws Exception {
         //        List<Class> classes = ClassUtil.getAllClassByInterface(Class.forName("com.threeti.dao.base.IGenericDao"));
-        List<Class<?>> classes = ClassUtil.getClasses("com.com.it.ymk.bubble.web.taobao.pojo");
+        List<Class<?>> classes = ClassUtil.getClasses("com.com.it.ymk.bubble.springboot.web.web.taobao.pojo");
         for (Class clas : classes) {
             System.out.println(clas.getName());
         }
