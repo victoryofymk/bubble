@@ -12,6 +12,14 @@
     <packaging>jar</packaging>
 
     <artifactId>bubble-springboot-web</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <docker.image.prefix>bubble-springboot</docker.image.prefix>
+        <!--set the following false to make images-->
+        <docker.skip.build>false</docker.skip.build>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.it.ymk</groupId>
@@ -70,6 +78,76 @@
                 <configuration>
                     <!--该配置必须-->
                     <fork>true</fork>
+                </configuration>
+            </plugin>
+            <!-- Docker maven plugin 执行：mvn package docker:build -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <!--插件绑定到phase-->
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--配置变量，包括是否build、imageName、imageTag，非常灵活-->
+                    <skipDocker>${docker.skip.build}</skipDocker>
+                    <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                    <!--最后镜像产生了两个tag，版本和和最新的-->
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <forceTags>true</forceTags>
+                    <env>
+                        <TZ>Asia/Shanghai</TZ>
+                    </env>
+                    <!--时区配置-->
+                    <runs>
+                        <run>ln -snf /usr/share/zoneinfo/$TZ /etc/localtime</run>
+                        <run>echo $TZ > /etc/timezone</run>
+                    </runs>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <!--<dockerDirectory>${project.basedir}</dockerDirectory>-->
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                    <!--push到私有的hub-->
+                    <!--<serverId>docker-registry</serverId>-->
+                </configuration>
+            </plugin>
+            <!-- Docker maven plugin -->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.4</version>
+                <!--放开这块注释，则运行mvn deploy命令就会打包镜像-->
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <goals>
+                            <goal>build</goal>
+                            <!--<goal>push</goal>-->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <contextDirectory>${project.basedir}</contextDirectory>
+                    <repository>${docker.image.prefix}/${project.artifactId}</repository>
+                    <tag>${project.version}</tag>
+                    <tag>latest</tag>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>
