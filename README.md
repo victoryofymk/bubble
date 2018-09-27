@@ -88,6 +88,27 @@ spring核心配置：
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
         </jaxrs:providers>
     </jaxrs:server>    
+## 部署
+###打包
+    #指定打包版本
+    mvn package -Pdev
+###本地启动
+执行  
+###docker启动
+    基础依赖：
+    docker、maven
+    
+    #编译打包镜像，执行 docker-maven-plugin
+    mvn package docker:build
+    #或者，执行 dockerfile-maven-plugin，速度较快
+    mvn package docker:build 
+    #docker 查看
+    docker images
+    #启动
+    docker run -p 8090:8090 -t bubble-springboot/bubble-springboot-web
+    
+    
+  
 ##工具 maven
 
 ### 多版本使用profile
