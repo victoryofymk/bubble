@@ -149,15 +149,15 @@
                 <executions>
                     <execution>
                         <id>default</id>
+                        <phase>install</phase>
                         <goals>
                             <goal>build</goal>
-                            <goal>push</goal>
+                            <!--<goal>push</goal>-->
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
                     <contextDirectory>${project.basedir}</contextDirectory>
-
                     <tag>${project.version}</tag>
                     <tag>latest</tag>
                     <buildArgs>
