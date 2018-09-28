@@ -92,6 +92,28 @@ spring核心配置：
 ###打包
     #指定打包版本
     mvn package -Pdev
+###制作docker镜像
+简洁版
+
+    #简洁版
+    FROM openjdk:8-jdk-alpine
+    VOLUME /tmp
+    ADD ${JAR_FILE} app.jar
+    ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+    
+进阶版
+    
+    #包含时区设置
+    FROM openjdk:8-jdk-alpine
+    VOLUME /tmp
+    ADD ${JAR_FILE} app.jar
+    # timezone
+    ARG TIME_ZONE=Asia/Shanghai
+    
+    RUN apk add -U tzdata \
+        && cp  /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
+    
+    ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 ###本地启动
 执行  
 ###docker启动
