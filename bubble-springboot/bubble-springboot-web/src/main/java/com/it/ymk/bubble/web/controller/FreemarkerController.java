@@ -31,6 +31,6 @@ public class FreemarkerController {
         logger.info("这是一个controller");
         model.addAttribute("title", "我是一个例子");
         // 注意，不要再最前面加上/，linux下面会出错
-        return "index";
+        return "ftl/index";
     }
 }
