@@ -21,16 +21,48 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Profile({ "dev", "test" })
 public class Swagger2Config {
     /**
+     * 接口版本号
+     */
+    private final String  VERSION              = "版本：1.0";
+    /**
+     * 接口大标题
+     */
+    private final String  TITLE                = "标题：XX_接口文档";
+    /**
+     * 具体的描述
+     */
+    private final String  DESCRIPTION          = "描述：接口说明文档..";
+    /**
+     * 服务说明url
+     */
+    private final String  TERMS_OF_SERVICE_URL = "http://www.xxx.com";
+    /**
+     * licence
+     */
+    private final String  LICENSE              = "MIT";
+    /**
+     * licnce url
+     */
+    private final String  LICENSE_URL          = "https://mit-license.org/";
+    /**
+     * 接口作者联系方式
+     */
+    private final Contact CONTACT              = new Contact("starlord", "https://github.com/victoryofymk",
+        "starlord.yan@gmail.com");
+    /**
      * 添加摘要信息(Docket)
      */
     @Bean
     public Docket controllerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
             .apiInfo(new ApiInfoBuilder()
-                .title("标题：某公司_用户信息管理系统_接口文档")
-                .description("描述：用于管理集团旗下公司的人员信息,具体包括XXX,XXX模块...")
-                .contact(new Contact("一只袜子", null, null))
-                .version("版本号:1.0")
+                .title(TITLE)
+                .description(DESCRIPTION)
+                .termsOfServiceUrl(TERMS_OF_SERVICE_URL)
+                .license(LICENSE)
+                .licenseUrl(LICENSE_URL)
+                .contact(CONTACT)
+                .version(VERSION)
                 .build())
             .select()
             .apis(RequestHandlerSelectors.basePackage("com.it.ymk"))
