@@ -41,59 +41,63 @@ maven
 ##### 指定打包译版本
     mvn clean package -Pdev
 #### 常用组件
-     基础依赖配置pom.xml文件中的常见依赖，例如Web、Mybatis、test以及Mysql
-     ```
-     <!-- spring web mvc -->
-     <dependency>
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-web</artifactId>
-     </dependency>
-     <!-- mybatis -->
-     <dependency>
-         <groupId>org.mybatis.spring.boot</groupId>
-         <artifactId>mybatis-spring-boot-starter</artifactId>
-         <version>1.3.1</version>
-     </dependency>
-     <!-- mysql -->
-     <dependency>
-         <groupId>mysql</groupId>
-         <artifactId>mysql-connector-java</artifactId>
-         <scope>runtime</scope>
-     </dependency>
-     <!-- test -->
-     <dependency>
-         <groupId>org.springframework.boot</groupId>
-         <artifactId>spring-boot-starter-test</artifactId>
-         <scope>test</scope>
-     </dependency>
-     ```
-     增加druid数据源、fastjson、pagehelper分页插件，整合swagger2文档自动化构建框架
-     ```
-     		<!-- 分页插件 -->
-     		<dependency>
-     			<groupId>com.github.pagehelper</groupId>
-     			<artifactId>pagehelper-spring-boot-starter</artifactId>
-     			<version>1.2.3</version>
-     		</dependency>
-     		<!-- alibaba的druid数据库连接池 -->
-     		<dependency>
-     			<groupId>com.alibaba</groupId>
-     			<artifactId>druid-spring-boot-starter</artifactId>
-     			<version>1.1.1</version>
-     		</dependency>
-     		<!-- alibaba的json格式化对象 -->
-     		<dependency>
-     			<groupId>com.alibaba</groupId>
-     			<artifactId>fastjson</artifactId>
-     			<version>1.2.31</version>
-     		</dependency>
-     		<!-- 自动生成API文档 -->
-     		<dependency>
-     			<groupId>io.springfox</groupId>
-     			<artifactId>springfox-swagger2</artifactId>
-     			<version>2.5.0</version>
-     		</dependency>
-     ```
+基础依赖配置pom.xml文件中的常见依赖，例如Web、Mybatis、test以及Mysql
+     
+ ```
+ <!-- spring web mvc -->
+ <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-web</artifactId>
+ </dependency>
+ <!-- mybatis -->
+ <dependency>
+     <groupId>org.mybatis.spring.boot</groupId>
+     <artifactId>mybatis-spring-boot-starter</artifactId>
+     <version>1.3.1</version>
+ </dependency>
+ <!-- mysql -->
+ <dependency>
+     <groupId>mysql</groupId>
+     <artifactId>mysql-connector-java</artifactId>
+     <scope>runtime</scope>
+ </dependency>
+ <!-- test -->
+ <dependency>
+     <groupId>org.springframework.boot</groupId>
+     <artifactId>spring-boot-starter-test</artifactId>
+     <scope>test</scope>
+ </dependency>
+ ```
+     
+ 增加druid数据源、fastjson、pagehelper分页插件，整合swagger2文档自动化构建框架
+     
+ ```
+ 		<!-- 分页插件 -->
+ 		<dependency>
+ 			<groupId>com.github.pagehelper</groupId>
+ 			<artifactId>pagehelper-spring-boot-starter</artifactId>
+ 			<version>1.2.3</version>
+ 		</dependency>
+ 		<!-- alibaba的druid数据库连接池 -->
+ 		<dependency>
+ 			<groupId>com.alibaba</groupId>
+ 			<artifactId>druid-spring-boot-starter</artifactId>
+ 			<version>1.1.1</version>
+ 		</dependency>
+ 		<!-- alibaba的json格式化对象 -->
+ 		<dependency>
+ 			<groupId>com.alibaba</groupId>
+ 			<artifactId>fastjson</artifactId>
+ 			<version>1.2.31</version>
+ 		</dependency>
+ 		<!-- 自动生成API文档 -->
+ 		<dependency>
+ 			<groupId>io.springfox</groupId>
+ 			<artifactId>springfox-swagger2</artifactId>
+ 			<version>2.5.0</version>
+ 		</dependency>
+ ```
+     
 ## 项目框架
 
 ### 前端
@@ -106,23 +110,23 @@ easyuigrid
 ##### 扩展
 ###### 跨页勾选
 #### 资源访问
-     springboot 资源文件说明
+ springboot 资源文件说明
     
-     ```
-        /META-INF/resources/
-        /resources/
-        /static/
-        /public/
-     ```
+ ```
+/META-INF/resources/
+/resources/
+/static/
+/public/
+ ```
     
-     spring boot默认加载文件的路径是
+ spring boot默认加载文件的路径是
     
-     ```
-     /META-INF/resources/
-     /resources/
-     /static/
-     /public/
-     ```
+ ```
+ /META-INF/resources/
+ /resources/
+ /static/
+ /public/
+ ```
     
     META_INF/resources 下面的静态资源文件可以覆盖引用的 jar 保重的资源文件
 #### WebJars统一管理静态资源
@@ -135,6 +139,7 @@ easyuigrid
 配置主要包括了druid数据库连接池、pagehelper分页插件、mybatis-generator插件以及mapper、pojo扫描配置
 ##### 配置druid数据库连接池
 添加如下配置
+
 ```
 spring:
     datasource:
@@ -152,7 +157,9 @@ spring:
         # 监控统计用的filter:stat 日志用的filter:log4j 防御sql注入的filter:wall
         filters: stat
 ```
+
 ##### 配置分页插件
+
 ```
 #pagehelper 分页插件
 pagehelper:
@@ -161,7 +168,9 @@ pagehelper:
     # 启用合理化，如果pageNum < 1会查询第一页，如果pageNum > pages会查询最后一页
     reasonable: true
 ```
+
 ##### mybatis扫描
+
 >1.在application.yml配置mapper.xml以及pojo的包地址
 
 ```
@@ -169,6 +178,7 @@ pagehelper:
 mybatis.type-aliases-package=com.it.ymk.bubble.core.entity,com.it.ymk.bubble.component.schedule.entity
 mybatis.mapper-locations=classpath*:com/it/ymk/bubble/component/schedule/mapper/mysql/*Mapper.xml
 ```
+    
 >2.在启动类开启Mapper扫描注解
 
 ```
@@ -269,7 +279,9 @@ public class RestServiceDemoImpl {
         </jaxrs:extensionMappings>
     </jaxrs:server>
 ```
+
 代码配置
+
 ```
 #java
 @Configuration
@@ -308,6 +320,7 @@ public class CxfConfig {
         return new ServletRegistrationBean(new CXFServlet(), "/cxf/*");
     }
 }
+
 ```
 #### 集成Swagger2 
 >1. 建立SwaggerConfig文件
