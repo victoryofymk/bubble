@@ -1,9 +1,45 @@
 # 本文简介
-  - 项目介绍
-  - 认识springboot
-  - 项目框架
-  - 部署启动方式
-  - 其他
+  * [本文简介](#本文简介)
+      * [项目介绍](#项目介绍)
+      * [认识springboot](#认识springboot)
+         * [springboot 简介](#springboot-简介)
+         * [说明文档](#说明文档)
+         * [环境搭建](#环境搭建)
+         * [基础配置](#基础配置)
+            * [properties和yml](#properties和yml)
+            * [编译工具](#编译工具)
+               * [多版本使用profile](#多版本使用profile)
+               * [本地库依赖](#本地库依赖)
+               * [指定编译版本](#指定编译版本)
+               * [指定打包译版本](#指定打包译版本)
+            * [常用组件](#常用组件)
+      * [项目框架](#项目框架)
+         * [前端](#前端)
+            * [模块](#模块)
+            * [api](#api)
+            * [grid](#grid)
+               * [插件](#插件)
+               * [扩展](#扩展)
+                  * [跨页勾选](#跨页勾选)
+            * [资源访问](#资源访问)
+            * [WebJars统一管理静态资源](#webjars统一管理静态资源)
+         * [后端](#后端)
+            * [集成Mybatis](#集成mybatis)
+               * [配置druid数据库连接池](#配置druid数据库连接池)
+               * [配置分页插件](#配置分页插件)
+               * [mybatis扫描](#mybatis扫描)
+            * [CXF 整合restful风格服务](#cxf-整合restful风格服务)
+            * [集成Swagger2](#集成swagger2)
+      * [部署](#部署)
+         * [打包](#打包)
+         * [制作docker镜像](#制作docker镜像)
+         * [本地启动](#本地启动)
+         * [docker启动](#docker启动)
+      * [其他](#其他)
+         * [代码优化](#代码优化)
+            * [java](#java)
+               * [string拼接占位符](#string拼接占位符)
+               * [使用logback占位符{}](#使用logback占位符)
 ## 项目介绍
    springboot 集成 mybatis、quartzs、swagger-ui等通用组件，精简配置文件，习惯由于配置。
 ## 认识springboot
