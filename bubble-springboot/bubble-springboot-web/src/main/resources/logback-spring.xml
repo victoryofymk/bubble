@@ -44,29 +44,35 @@
     <!-- 日志根目录-->
     <springProperty scope="context" name="LOG_HOME" source="logging.path"
                     defaultValue="/Users/yanmingkun/IdeaProjects/opt/ymk/product/bubble/logs"/>
-
     <!-- 日志级别 -->
     <springProperty scope="context" name="LOG_ROOT_LEVEL" source="logging.level.root" defaultValue="DEBUG"/>
 
     <!--  标识这个"STDOUT" 将会添加到这个logger -->
-    <springProperty scope="context" name="STDOUT" source="log.stdout" defaultValue="STDOUT"/>
+    <!--<springProperty scope="context" name="STDOUT" source="log.stdout" defaultValue="STDOUT"/>-->
+
+    <!--根据系统设定日志路径，LOG_PATH未使用，依赖Janino library-->
+    <property name="OS_NAME" value="${os.name}"/>
+    <!--<if condition='property("OS_NAME").contains("Windows")'>-->
+    <!--<then>-->
+    <!--<property name="LOG_PATH" value="${LOG_PATH:-E:/logs}"/>-->
+    <!--</then>-->
+    <!--<else>-->
+    <!--<property name="LOG_PATH" value="${LOG_PATH:-/log}"/>-->
+    <!--</else>-->
+    <!--</if>-->
 
     <!-- 日志文件名称-->
     <property name="LOG_PREFIX" value="spring-boot-logback"/>
-
     <!-- 日志文件编码-->
     <property name="LOG_CHARSET" value="UTF-8"/>
-
     <!-- 日志文件路径+日期-->
     <property name="LOG_DIR" value="${LOG_HOME}/%d{yyyyMMdd}"/>
-
     <!--对日志进行格式化-->
     <property name="LOG_MSG"
               value="- | [%X{requestUUID}] | [%d{yyyyMMdd HH:mm:ss.SSS}] | [%level] | [${HOSTNAME}] | [%thread] | [%logger{36}] | --> %msg|%n "/>
 
-    <!--文件大小，默认10MB-->
+    <!--文件切割大小，默认10MB-->
     <property name="MAX_FILE_SIZE" value="50MB"/>
-
     <!-- 配置日志的滚动时间 ，表示只保留最近 10 天的日志-->
     <property name="MAX_HISTORY" value="10"/>
 
@@ -231,46 +237,60 @@
 　　　　 level: 用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL和OFF，还有一个特俗值INHERITED或者同义词NULL，代表强制执行上级的级别。 如果未设置此属性，那么当前loger将会继承上级的级别。
         addtivity: 是否向上级loger传递打印信息。默认是true。同<loger>一样，可以包含零个或多个<appender-ref>元素，标识这个appender将会添加到这个loger。
     -->
-    <logger name="com.it.ymk.bubble" additivity="false">
-        <level value="DEBUG"/>
-        <appender-ref ref="DEBUG"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
+    <springProfile name="dev">
+        <!-- 开发环境时激活 -->
+        <logger name="com.it.ymk.bubble" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.apache.commons" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.mybatis" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.apache.ibatis" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="java.sql" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="com.alibaba.druid" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="org.hibernate" level="DEBUG" additivity="false">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+    </springProfile>
 
-    <logger name="org.apache.commons" additivity="false">
-        <level value="info"/>
-        <appender-ref ref="DEBUG"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="org.mybatis" additivity="false">
-        <level value="DEBUG"/>
-        <appender-ref ref="SQL"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="org.apache.ibatis">
-        <level value="DEBUG"/>
-        <appender-ref ref="SQL"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="java.sql" additivity="false">
-        <level value="DEBUG"/>
-        <appender-ref ref="SQL"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="com.alibaba.druid" additivity="false">
-        <level value="DEBUG"/>
-        <appender-ref ref="SQL"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="org.hibernate" additivity="false">
-        <level value="DEBUG"/>
-        <appender-ref ref="SQL"/>
-        <appender-ref ref="STDOUT"/>
-    </logger>
+    <springProfile name="dev,test">
+        <!-- 开发，测试的时候激活-->
+    </springProfile>
+
+    <springProfile name="prod">
+        <!-- 当 "生产" 环境时，该配置不激活-->
+        <logger name="org.apache.commons" level="DEBUG" additivity="false">
+            <appender-ref ref="DEBUG"/>
+        </logger>
+        <logger name="org.mybatis" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL"/>
+        </logger>
+        <logger name="org.apache.ibatis" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL"/>
+        </logger>
+        <logger name="java.sql" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL"/>
+        </logger>
+        <logger name="com.alibaba.druid" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL"/>
+        </logger>
+        <logger name="org.hibernate" level="DEBUG" additivity="false">
+            <appender-ref ref="SQL"/>
+        </logger>
+    </springProfile>
 
     <!-- 子节点<root>:它也是<loger>元素，但是它是根loger,是所有<loger>的上级。只有一个level属性，因为name已经被命名为"root",且已经是最上级了。
 　　　　level: 用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL和OFF，不能设置为INHERITED或者同义词NULL。 默认是DEBUG。 -->
-    <root level="DEBUG">
+    <root level="${LOG_ROOT_LEVEL}">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="DEBUG"/>
         <appender-ref ref="SQL"/>
