@@ -13,23 +13,23 @@
 ### 基础配置
 #### properties和yml
 yml相对于properties更加精简而且很多官方给出的Demo都是yml的配置形式，在这里我们采用yml，相对于properties形式主要有以下两点不同
-    >1. 对于键的描述由原有的 "." 分割变成了树的形状
-    >2. 对于所有的键的后面一个要跟一个空格，不然启动项目会报配置解析错误
+>1. 对于键的描述由原有的 "." 分割变成了树的形状
+>2. 对于所有的键的后面一个要跟一个空格，不然启动项目会报配置解析错误
     
-    ```
-    # properties式语法描述
-    spring.datasource.name = mysql
-    spring.datasource.url = jdbc:mysql://localhost:3306/root?characterEncoding=utf-8
-    spring.datasource.username = root
-    spring.datasource.password = root
-    # yml式语法描述
-    spring:
-        datasource:
-            name: mysql
-            url: jdbc:mysql://localhost:3306/root?characterEncoding=utf-8
-            username: root
-            password: root
-    ```
+```
+# properties式语法描述
+spring.datasource.name = mysql
+spring.datasource.url = jdbc:mysql://localhost:3306/root?characterEncoding=utf-8
+spring.datasource.username = root
+spring.datasource.password = root
+# yml式语法描述
+spring:
+    datasource:
+        name: mysql
+        url: jdbc:mysql://localhost:3306/root?characterEncoding=utf-8
+        username: root
+        password: root
+```
 #### 编译工具
 maven
 ##### 多版本使用profile
@@ -72,30 +72,30 @@ maven
  增加druid数据源、fastjson、pagehelper分页插件，整合swagger2文档自动化构建框架
      
  ```
- 		<!-- 分页插件 -->
- 		<dependency>
- 			<groupId>com.github.pagehelper</groupId>
- 			<artifactId>pagehelper-spring-boot-starter</artifactId>
- 			<version>1.2.3</version>
- 		</dependency>
- 		<!-- alibaba的druid数据库连接池 -->
- 		<dependency>
- 			<groupId>com.alibaba</groupId>
- 			<artifactId>druid-spring-boot-starter</artifactId>
- 			<version>1.1.1</version>
- 		</dependency>
- 		<!-- alibaba的json格式化对象 -->
- 		<dependency>
- 			<groupId>com.alibaba</groupId>
- 			<artifactId>fastjson</artifactId>
- 			<version>1.2.31</version>
- 		</dependency>
- 		<!-- 自动生成API文档 -->
- 		<dependency>
- 			<groupId>io.springfox</groupId>
- 			<artifactId>springfox-swagger2</artifactId>
- 			<version>2.5.0</version>
- 		</dependency>
+<!-- 分页插件 -->
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper-spring-boot-starter</artifactId>
+    <version>1.2.3</version>
+</dependency>
+<!-- alibaba的druid数据库连接池 -->
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>druid-spring-boot-starter</artifactId>
+    <version>1.1.1</version>
+</dependency>
+<!-- alibaba的json格式化对象 -->
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>fastjson</artifactId>
+    <version>1.2.31</version>
+</dependency>
+<!-- 自动生成API文档 -->
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-swagger2</artifactId>
+    <version>2.5.0</version>
+</dependency>
  ```
      
 ## 项目框架
