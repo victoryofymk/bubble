@@ -30,6 +30,10 @@ jobs:
         # fallback to using the latest cache if no exact match is found
         - v1-dependencies-
 
+    # 安装
+    - run: mvn install
+
+
     - run: mvn dependency:go-offline
 
     - save_cache:
