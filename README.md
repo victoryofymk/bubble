@@ -41,7 +41,7 @@
                * [string拼接占位符](#string拼接占位符)
                * [使用logback占位符{}](#使用logback占位符)
 ## 项目介绍
-   springboot 集成 mybatis、quartzs、swagger-ui等通用组件，精简配置文件，习惯由于配置。
+   基于springboot实现的后端框架，集成 mybatis、quartzs、swagger-ui等通用组件，精简配置文件，习惯由于配置。
 ## 认识springboot
 ### springboot 简介
 ### 说明文档
@@ -170,9 +170,54 @@ easyuigrid
 
  
 ### 后端
+#### 就成spring-boot-starter-data-jpa
+spring-boot-starter-data-jpa，示例模块：bubble-component-shiro
+
+添加依赖
+
+```
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+```
+
+添加配置,ddl-auto设置为cteate表示每次重新初始化数据库
+
+
+```
+#ddl-auto 四个值的解释
+#create： 每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因。
+#create-drop ：每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。
+#update：最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据 model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等 应用第一次运行起来后才会。
+#validate ：每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。 5、 none : 什么都不做。
+spring.jpa.database=mysql
+spring.jpa.show_sql=true
+spring.jpa.hibernate.ddl-auto=create
+spring.jpa.database-platform=com.it.ymk.bubble.config.MySQL5DialectUTF8
+```
+
+在src/main/resources下面创建import.sql，每次启动会执行此脚本
+
+```
+INSERT INTO `sys_user` (`uid`,`username`,`name`,`password`,`salt`,`state`) VALUES ('1', 'admin', '管理员', 'd3c59d25033dbf980d29554025c23a75', '8d78869f470951332959580424d4bf4f', 0);
+INSERT INTO `sys_permission` (`id`,`available`,`name`,`parent_id`,`parent_ids`,`permission`,`resource_type`,`url`) VALUES (1,0,'用户管理',0,'0/','userInfo:view','menu','userInfo/userList');
+INSERT INTO `sys_permission` (`id`,`available`,`name`,`parent_id`,`parent_ids`,`permission`,`resource_type`,`url`) VALUES (2,0,'用户添加',1,'0/1','userInfo:add','button','userInfo/userAdd');
+INSERT INTO `sys_permission` (`id`,`available`,`name`,`parent_id`,`parent_ids`,`permission`,`resource_type`,`url`) VALUES (3,0,'用户删除',1,'0/1','userInfo:del','button','userInfo/userDel');
+INSERT INTO `sys_role` (`id`,`available`,`description`,`role`) VALUES (1,0,'管理员','admin');
+INSERT INTO `sys_role` (`id`,`available`,`description`,`role`) VALUES (2,0,'VIP会员','vip');
+INSERT INTO `sys_role` (`id`,`available`,`description`,`role`) VALUES (3,1,'test','test');
+INSERT INTO `sys_role_permission` VALUES ('1', '1');
+INSERT INTO `sys_role_permission` (`permission_id`,`role_id`) VALUES (1,1);
+INSERT INTO `sys_role_permission` (`permission_id`,`role_id`) VALUES (2,1);
+INSERT INTO `sys_role_permission` (`permission_id`,`role_id`) VALUES (3,2);
+INSERT INTO `sys_user_role` (`role_id`,`uid`) VALUES (1,1);
+```
 
 #### 集成Mybatis
-配置主要包括了druid数据库连接池、pagehelper分页插件、mybatis-generator插件以及mapper、pojo扫描配置
+推荐需要较多业务逻辑的模块使用此组件，实现有基于xml和无xml方式
+
+本配置主要包括了druid数据库连接池、pagehelper分页插件、mybatis-generator插件以及mapper、pojo扫描配置
 ##### 配置druid数据库连接池
 添加如下配置
 
@@ -541,46 +586,72 @@ window.SwaggerTranslator.learn({
 ```
 
 ## 部署
-### 打包
-    #指定打包版本
-    mvn package -Pdev
+### 本地运行
+
+配置中可以修改启动环境
+```
+spring.profiles.active=dev
+```
+本地运行在IDE直接运行com.it.ymk.bubble.Application
+
+### 多环境打包
+
+默认打包dev环境，-P指定环境
+
+```
+#指定打包版本
+mvn package -Pdev
+```
+
+### jar包启动
+
+```
+java -jar XXX.jar
+```
+
 ### 制作docker镜像
 简洁版
-
-    #简洁版
-    FROM openjdk:8-jdk-alpine
-    VOLUME /tmp
-    ADD ${JAR_FILE} app.jar
-    ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
-    
+```
+#简洁版
+FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+ADD ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+```
 进阶版
-    
-    #包含时区设置
-    FROM openjdk:8-jdk-alpine
-    VOLUME /tmp
-    ADD ${JAR_FILE} app.jar
-    # timezone
-    ARG TIME_ZONE=Asia/Shanghai
-    
-    RUN apk add -U tzdata \
-        && cp  /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
-    
-    ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
-### 本地启动
-执行  
+```
+#包含时区设置
+FROM openjdk:8-jdk-alpine
+VOLUME /tmp
+ADD ${JAR_FILE} app.jar
+# timezone
+ARG TIME_ZONE=Asia/Shanghai
+
+RUN apk add -U tzdata \
+    && cp  /usr/share/zoneinfo/${TIME_ZONE} /etc/localtime
+
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+```
 ### docker启动
-    基础依赖：
-    docker、maven
-    
-    #编译打包镜像，执行 docker-maven-plugin
-    mvn package docker:build
-    #或者，执行 dockerfile-maven-plugin，速度较快
-    mvn package docker:build 
-    #docker 查看
-    docker images
-    #启动
-    docker run -p 8090:8090 -t bubble-springboot/bubble-springboot-web
-    
+基础依赖：docker、maven
+
+编译打包镜像，执行 docker-maven-plugin
+```
+mvn package docker:build
+```
+或者，执行 dockerfile-maven-plugin，速度较快
+```
+mvn package docker:build
+```
+docker 查看
+```
+docker images
+```
+
+启动
+```
+docker run -p 8090:8090 -t bubble-springboot/bubble-springboot-web
+```    
     
   
 ## 其他
@@ -589,16 +660,21 @@ window.SwaggerTranslator.learn({
 
 #### java  
 
-##### string拼接占位符   
- System.out.printf("该域名%s被访问了%s次.", domain , iVisit);
- System.out.println(MessageFormat.format("该域名{0}被访问了 {1} 次.", domain , iVisit));
- 
- 工具：  
+##### 占位符
 
-##### 使用logback占位符{}
 
+```
+#string拼接占位符  
+System.out.printf("该域名%s被访问了%s次.", domain , iVisit);
+System.out.println(MessageFormat.format("该域名{0}被访问了 {1} 次.", domain , iVisit));
+``` 
+
+
+```
+#使用logback占位符{} 
 if(logger.isDebugEnabled()) { 
   logger.debug("Entry number: " + i + " is " + String.valueOf(entry[i]));
 }
+``` 
 
 
