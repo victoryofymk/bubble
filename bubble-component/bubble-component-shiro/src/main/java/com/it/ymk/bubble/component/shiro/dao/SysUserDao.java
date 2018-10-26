@@ -9,7 +9,7 @@ import com.it.ymk.bubble.component.shiro.entity.SysUser;
  * @date 2018-09-20 13:33
  */
 @Deprecated
-public interface UserInfoDao extends CrudRepository<SysUser, Long> {
+public interface SysUserDao extends CrudRepository<SysUser, Long> {
     /**通过username查找用户信息;*/
     public SysUser findByUsername(String username);
 }

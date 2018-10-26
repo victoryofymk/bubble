@@ -20,7 +20,7 @@
         <!--shiro-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
+            <artifactId>shiro-all</artifactId>
             <version>1.4.0</version>
         </dependency>
     </dependencies>

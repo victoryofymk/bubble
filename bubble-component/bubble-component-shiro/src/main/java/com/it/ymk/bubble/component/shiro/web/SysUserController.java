@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.it.ymk.bubble.component.shiro.entity.SysUser;
-import com.it.ymk.bubble.component.shiro.service.UserInfoService;
+import com.it.ymk.bubble.component.shiro.service.SysUserService;
 
 /**
  * @author yanmingkun
@@ -22,8 +24,11 @@ import com.it.ymk.bubble.component.shiro.service.UserInfoService;
 @Controller
 @RequestMapping("/userInfo")
 public class SysUserController {
+
+    private static Logger logger = LoggerFactory.getLogger(SysUserController.class);
+
     @Resource
-    UserInfoService userService;
+    SysUserService        userService;
 
     /**
      * 用户查询.
@@ -33,7 +38,7 @@ public class SysUserController {
     @RequiresPermissions("userInfo:view") //权限管理;
     @Cacheable(value = "user-key")
     public String userInfo() {
-        System.out.println("若下面没出现“无缓存的时候调用”字样且能打印出数据表示测试成功");
+        logger.debug("若下面没出现“无缓存的时候调用”字样且能打印出数据表示测试成功");
         return "userInfoList";
     }
 

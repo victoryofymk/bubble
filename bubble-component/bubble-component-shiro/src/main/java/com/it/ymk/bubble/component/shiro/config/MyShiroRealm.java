@@ -11,23 +11,34 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.it.ymk.bubble.component.shiro.entity.SysPermission;
 import com.it.ymk.bubble.component.shiro.entity.SysRole;
 import com.it.ymk.bubble.component.shiro.entity.SysUser;
-import com.it.ymk.bubble.component.shiro.service.UserInfoService;
+import com.it.ymk.bubble.component.shiro.service.SysUserService;
 
 /**
  * @author yanmingkun
  * @date 2018-09-20 13:29
  */
 public class MyShiroRealm extends AuthorizingRealm {
-    @Resource
-    private UserInfoService userInfoService;
 
+    private static Logger  logger = LoggerFactory.getLogger(MyShiroRealm.class);
+
+    @Resource
+    private SysUserService sysUserService;
+
+    /**
+     * 获取授权信息，权限认证
+     *
+     * @param principals
+     * @return
+     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
+        logger.debug("权限配置-->MyShiroRealm.doGetAuthorizationInfo()");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         SysUser sysUser = (SysUser) principals.getPrimaryPrincipal();
         for (SysRole role : sysUser.getRoleList()) {
@@ -48,23 +59,16 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
         throws AuthenticationException {
-        System.out.println("MyShiroRealm.doGetAuthenticationInfo()");
         //获取用户的输入的账号.
         String username = (String) token.getPrincipal();
-        System.out.println(token.getCredentials());
+        logger.info("对用户[{}]进行登录验证..验证开始", username);
         //通过username从数据库中查找 User对象，如果找到，没找到.
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
-        SysUser sysUser = userInfoService.findByUsername(username);
-        System.out.println("----->>sysUser=" + sysUser);
+        SysUser sysUser = sysUserService.findByUsername(username);
         if (sysUser == null) {
             return null;
         }
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
-            sysUser, //用户名
-            sysUser.getPassword(), //密码
-            ByteSource.Util.bytes(sysUser.getCredentialsSalt()), //salt=username+salt
-            getName() //realm name
-        );
-        return authenticationInfo;
+        return new SimpleAuthenticationInfo(sysUser, sysUser.getPassword(),
+            ByteSource.Util.bytes(sysUser.getCredentialsSalt()), getName());
     }
 }
