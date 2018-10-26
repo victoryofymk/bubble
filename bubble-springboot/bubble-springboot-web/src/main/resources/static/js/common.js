@@ -1,5 +1,5 @@
 /**
- * 自执行
+ * 扩展jquery
  * Created by yanmingkun on 2017/5/19.
  */
 $(function () {
