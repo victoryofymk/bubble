@@ -11,6 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 public class SysRole implements Serializable {
+    private static final long   serialVersionUID = -3625116217791731122L;
     @Id
     @GeneratedValue
     private Integer             id;                        // 编号

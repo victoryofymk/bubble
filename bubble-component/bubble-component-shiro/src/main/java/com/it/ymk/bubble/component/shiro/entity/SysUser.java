@@ -11,9 +11,10 @@ import javax.persistence.*;
  */
 @Entity
 public class SysUser implements Serializable {
+    private static final long serialVersionUID = 7898742914605334738L;
     @Id
     @GeneratedValue
-    private Integer       uid;
+    private Long              uid;
     @Column(unique = true)
     private String        username; //帐号
     private String        name;     //名称（昵称或者真实姓名，不同系统不同定义）
@@ -25,11 +26,11 @@ public class SysUser implements Serializable {
         inverseJoinColumns = { @JoinColumn(name = "roleId") })
     private List<SysRole> roleList; // 一个用户具有多个角色
 
-    public Integer getUid() {
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
 

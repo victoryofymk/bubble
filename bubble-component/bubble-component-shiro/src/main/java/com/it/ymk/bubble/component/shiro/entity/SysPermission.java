@@ -11,6 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 public class SysPermission implements Serializable {
+    private static final long serialVersionUID = 4902197990230996242L;
     @Id
     @GeneratedValue
     private Integer       id;                       //主键.

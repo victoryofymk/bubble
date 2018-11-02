@@ -16,26 +16,26 @@
             <th>#</th>
             <th>User Name</th>
             <th>Password</th>
-            <th>Age</th>
+            <!--<th>Age</th>-->
             <th>Edit</th>
             <th>Delete</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${users}">
-            <th scope="row" th:text="${user.id}">1</th>
-            <td th:text="${user.userName}">neo</td>
+            <th scope="row" th:text="${user.uid}">1</th>
+            <td th:text="${user.username}">neo</td>
             <td th:text="${user.password}">Otto</td>
-            <td th:text="${user.age}">6</td>
-            <td><a th:href="@{/toEdit(id=${user.id})}">edit</a></td>
-            <td><a th:href="@{/delete(id=${user.id})}">delete</a></td>
+            <!--<td th:text="${user.age}">6</td>-->
+            <td><a th:href="@{/userInfo/thymeleaf/toEdit(id=${user.uid})}">edit</a></td>
+            <td><a th:href="@{/userInfo/thymeleaf/delete(id=${user.uid})}">delete</a></td>
         </tr>
         </tbody>
     </table>
 </div>
 <div class="form-group">
     <div class="col-sm-2 control-label">
-        <a href="/toAdd" th:href="@{/toAdd}" class="btn btn-info">add</a>
+        <a href="/toAdd" th:href="@{/userInfo/thymeleaf/toAdd}" class="btn btn-info">add</a>
     </div>
 </div>
 
