@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.it.ymk.bubble.component.schedule.entity.JobAndTrigger;
 import com.it.ymk.bubble.component.schedule.job.BaseJob;
@@ -32,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 @Api("Quartz定时任务管理")
 @RestController
 @RequestMapping(value = "/job")
-public class JobController {
+public class JobController<T> {
     @Autowired
     private IJobAndTriggerService iJobAndTriggerService;
 
@@ -170,9 +171,13 @@ public class JobController {
     }
 
     @RequestMapping(value = "/queryjob")
-    public Map<String, Object> queryjob(@RequestParam(value = "pageNum") Integer pageNum,
-        @RequestParam(value = "pageSize") Integer pageSize) {
-        PageInfo<JobAndTrigger> jobAndTrigger = iJobAndTriggerService.getJobAndTriggerDetails(pageNum, pageSize);
+    public Map<String, Object> queryjob(T m, @RequestParam(value = "pageNum") Integer pageNum,
+        @RequestParam(value = "pageSize") Integer pageSize, String orderBy) {
+        Page<JobAndTrigger> page = new Page<>();
+        page.setPageNum(pageNum);
+        page.setPageSize(pageSize);
+        page.setOrderBy(orderBy);
+        PageInfo<JobAndTrigger> jobAndTrigger = iJobAndTriggerService.getJobAndTriggerDetails(page);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("JobAndTrigger", jobAndTrigger);
         map.put("number", jobAndTrigger.getTotal());

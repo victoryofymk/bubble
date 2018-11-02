@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.it.ymk.bubble.component.schedule.dao.JobAndTriggerMapper;
@@ -21,11 +22,11 @@ public class JobAndTriggerImpl implements IJobAndTriggerService {
     @Autowired
     private JobAndTriggerMapper jobAndTriggerMapper;
 
-    public PageInfo<JobAndTrigger> getJobAndTriggerDetails(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public PageInfo<JobAndTrigger> getJobAndTriggerDetails(Page<JobAndTrigger> page) {
+        PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
         List<JobAndTrigger> list = jobAndTriggerMapper.getJobAndTriggerDetails();
-        PageInfo<JobAndTrigger> page = new PageInfo<JobAndTrigger>(list);
-        return page;
+        PageInfo<JobAndTrigger> pagedata = new PageInfo<JobAndTrigger>(list);
+        return pagedata;
     }
 
 }
