@@ -1,5 +1,9 @@
 package com.it.ymk.bubble;
 
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,10 +27,32 @@ import com.it.ymk.bubble.core.utils.ErrorUtil;
 @ImportResource(locations = { "classpath:cxf.xml" })
 public class Application {
 
+    /**
+     * 项目启动说明
+     *
+     * @return
+     */
     @GetMapping("/")
     @ResponseBody
     public String index() {
         return "Hello Spring Boot World!";
+    }
+
+    /**
+     *  获取sessionid
+     *
+     * @param session
+     * @return
+     */
+    @RequestMapping("/uid")
+    @ResponseBody
+    public String uid(HttpSession session) {
+        UUID uid = (UUID) session.getAttribute("uid");
+        if (uid == null) {
+            uid = UUID.randomUUID();
+        }
+        session.setAttribute("uid", uid);
+        return session.getId();
     }
 
     /**
