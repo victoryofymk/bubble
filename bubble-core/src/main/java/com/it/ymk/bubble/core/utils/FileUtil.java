@@ -113,6 +113,7 @@ public class FileUtil {
     }
 
     /**
+     * TODO 待升级
      * rar压缩包处理
      * @param filePath 源文件路径
      * @param destDir 解析文件保存路径
@@ -355,19 +356,24 @@ public class FileUtil {
                 //删除子文件
                 if (files[i].isFile()) {
                     flag = deleteFile(files[i].getAbsolutePath());
-                    if (!flag)
+                    if (!flag) {
                         break;
+                    }
+
                 } //删除子目录
                 else {
                     flag = deleteDirectory(files[i].getAbsolutePath());
-                    if (!flag)
+                    if (!flag) {
                         break;
+                    }
+
                 }
             }
         }
 
-        if (!flag)
+        if (!flag) {
             return false;
+        }
         //删除当前目录
         if (dirFile.delete()) {
             return true;
