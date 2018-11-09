@@ -34,7 +34,7 @@
         <axis2.version>1.6.2</axis2.version>
         <maven.test.skip>true</maven.test.skip>
         <cxf.version>3.2.6</cxf.version>
-        <jackson.version>2.9.4</jackson.version>
+        <jackson.version>2.9.5</jackson.version>
         <!--<project.deploy.directory>${env.RELEASE_HOME}</project.deploy.directory>-->
     </properties>
 
@@ -234,7 +234,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.47</version>
         </dependency>
         <dependency>
             <groupId>net.sf.ezmorph</groupId>

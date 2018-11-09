@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 请求返回基础对象
+ *
  * @author yanmingkun
  * @date 2018-11-01 17:43
  */
