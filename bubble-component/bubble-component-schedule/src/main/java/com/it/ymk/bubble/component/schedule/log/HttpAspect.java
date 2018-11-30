@@ -1,5 +1,11 @@
 package com.it.ymk.bubble.component.schedule.log;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
@@ -9,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -21,7 +28,9 @@ import com.alibaba.fastjson.JSONObject;
 @Aspect
 @Configuration
 public class HttpAspect {
-    private static final Logger logger = LoggerFactory.getLogger(HttpAspect.class);
+    private static final Logger logger    = LoggerFactory.getLogger(HttpAspect.class);
+
+    static ThreadLocal<HashMap> threadmap = ThreadLocal.withInitial(() -> new HashMap());
 
     /**
      * 只关注方法名为find前缀的
@@ -54,8 +63,22 @@ public class HttpAspect {
 
         //类方法
         logger.info("class_method={}.{}", point.getSignature().getDeclaringTypeName(), point.getSignature().getName());
+
         //参数
-        logger.info("args={}", JSONObject.toJSONString(point.getArgs()));
+        Object[] args = point.getArgs();
+        Object[] arguments = new Object[args.length];
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof ServletRequest || args[i] instanceof ServletResponse
+                || args[i] instanceof MultipartFile) {
+                //ServletRequest不能序列化，从入参里排除，否则报异常：java.lang.IllegalStateException: It is illegal to call this method if the current request is not in asynchronous mode (i.e. isAsyncStarted() returns false)
+                //ServletResponse不能序列化 从入参里排除，否则报异常：java.lang.IllegalStateException: getOutputStream() has already been called for this response
+                continue;
+            }
+            arguments[i] = args[i];
+        }
+        logger.info("args={}", JSONObject.toJSONString(arguments));
+        Date startTime = new Date();
+        threadmap.get().put("startTime", startTime);
     }
 
     /**
@@ -64,7 +87,12 @@ public class HttpAspect {
      */
     @AfterReturning(returning = "object", pointcut = "log()")
     public void invokeAfter(Object object) {
-        logger.info("结果={}", object);
+        Date endTime = new Date();
+        Date startTime = (Date) threadmap.get().get("startTime");
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long threadId = Thread.currentThread().getId();
+        logger.info("结果={},执行时长={}ms,开始时间={},结束时间={},线程Id={}", object, (endTime.getTime() - startTime.getTime()),
+            sd.format(startTime), sd.format(endTime), threadId);
     }
 
     /**

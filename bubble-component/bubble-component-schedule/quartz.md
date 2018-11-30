@@ -113,7 +113,10 @@ http://blog.csdn.net/u010648555/article/category/6601767
 Quartz系列：http://blog.csdn.net/Evankaka/article/category/3155529
 
 
-#quartz加载方式
-##通过ScheduleConfig文件加载
-##listener加载
-##spring配置文件加载
+## quartz加载方式
+###通过ScheduleConfig文件加载
+###listener加载
+###spring配置文件加载
+## 监控job
+### 
+### TriggerListener

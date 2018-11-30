@@ -6,6 +6,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
 import org.quartz.ee.servlet.QuartzInitializerListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -62,8 +63,10 @@ public class SchedulerConfig {
      * @throws IOException
      */
     @Bean(name = "Scheduler")
-    public Scheduler scheduler() throws IOException {
-        return schedulerFactoryBean().getScheduler();
+    public Scheduler scheduler() throws IOException, SchedulerException {
+        Scheduler scheduler = schedulerFactoryBean().getScheduler();
+        scheduler.getListenerManager().addTriggerListener(new MonitorTriggerListener());
+        return scheduler;
     }
 
 }

@@ -19,6 +19,7 @@
         <module>bubble-component-imageprocess</module>
         <module>bubble-component-cucumber</module>
         <module>bubble-component-shiro</module>
+        <module>bubble-component-manage</module>
     </modules>
 
     <dependencies>
