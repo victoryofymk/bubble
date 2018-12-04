@@ -118,5 +118,78 @@ Quartz系列：http://blog.csdn.net/Evankaka/article/category/3155529
 ###listener加载
 ###spring配置文件加载
 ## 监控job
-### 
-### TriggerListener
+### JobRunShell
+### TriggerListener(推荐)
+## 防止同步执行
+在Quartz中，通过注解@DisallowConcurrentExecution实现，当Trigger在完成retrieveJob后，将检查Job的注解，如果Job已经在运行，将在循环中continue跳过此Job
+## 定制历史记录插件
+### 1. Quartz的Plugin系统
+插件系统可以充分利用各种Listener，在Trigger或者Job执行生命周期中实现AOP定制，比如下面就是在Trigger中加日志的插件。在配置文件中加入如下后，当Tigger完成后将自动打上Log。
+
+```
+org.quartz.plugin.his.class=org.quartz.plugins.history.LoggingTriggerHistoryPlugin
+org.quartz.plugin.his.triggerFiredMessage=Trigger [{1}.{0}] fired job ...
+org.quartz.plugin.his.triggerCompleteMessage=Trigger [{1}.{0}] completed ...
+org.quartz.plugin.his.triggerMisfiredMessage=Trigger [{1}.{0}] misfired job ...
+```
+
+插件的实现原理很简单，它没有依赖Spring注入，而是在Factory初始化读取Prop时通过Class.newInstance生成对象实例，并读取prop(比如上面的triggerFiredMessage)调用反射setTriggerFiredMessage()注入属性
+
+```
+// 通过Class.newInstance，并反射`setProp`注入参数
+org.quartz.impl.StdSchedulerFactory#instantiate();
+// 以上图为例，首先截取掉前面的Group，然后实例化
+def listenerClass = "org.quartz.plugins.history.LoggingTriggerHistoryPlugin"
+def listener = loadHelper.loadClass(listenerClass).newInstance();
+def m = listener.getClass().getMethod("set" + "TriggerFiredMessage", [String.class]);
+m.invoke(listener,"Trigger [{1}.{0}] fired job ...")
+```
+
+### 2. 历史执行记录的Plugin定制
+
+定制历史记录主要是方便日后有据可查(有锅不背)，以减少黑盒问题。下文只提供思路，不提供源码。
+
+2.1. 定制Listener
+定制JobListener与SchedulerPlugin接口，并在jobWasExecuted中进行记录操作，此处可以参考LoggingJobHistoryPlugin，并通过context获取Fire相关，Map相关以及Result相关
+
+public interface JobListener {
+  	//重写如下方法，并写入日志
+    void jobWasExecuted(JobExecutionContext context,
+            JobExecutionException jobException);
+}
+除了cron等基本信息外，这里最重要的就是JobExecutionContext.getResult()还有任务中的dataMap，需要结合具体业务进行反序列化，这里也就是为什么网上基本看不到开源实现的原因，因为都是与业务强绑定的。
+
+2.2. 定制DBAppender
+写入可以参考Logback中DBAppender的实现方式，不借助ORM框架实现高性能写入日志，拼装与commit操作，由于我删除了Event，因此没有加锁（本身没有加锁场景），可以参考这里，伪代码如下
+
+String getInsertSQL(){
+  	//此部分使用了SEQ，代替了默认的Trigger，只在Oracle下测试通过
+    return "INSERT INTO JOB_HIS (ID, ....) VALUES (TASK_SQL.nextval, ?, ?, ?, ?...)";
+}
+
+protected appendDBlog(T t){
+    Connection connection = null;
+    PreparedStatement insertStatement = null;
+    try{
+        connection = getConnection();
+        connection.setAutoCommit(false);
+        insertStatement = connection.prepareStatement(getInsertSQL(), new String[] { EVENT_ID_COL_NAME });
+      	prepareStatement.setString(1,..);
+      	....
+        connection.commit();
+    }catch(Exception e){
+        //各种异常
+    }finally{
+        //关闭DB流
+    }
+}
+此处主要难点在移植DBAppeder，并复用Quartz的DataSource。
+
+2.3. 定制日志DDL
+DDL可以参考Logback的SQL，基本上可以复用，但是在Logback中，默认是使用的Trigger，由于这个Trigger权限有时候不好搞到，我们可以用SEQ代替。
+
+当日志快要满时，我们可以手动或者Trigger删除旧的日志
+
+delete from JOB_HIS where FIRE_DATE < sysdate - 90;
+## 记一次Quartz重复调度(任务重复执行)的问题排查
+https://segmentfault.com/a/1190000015492260
