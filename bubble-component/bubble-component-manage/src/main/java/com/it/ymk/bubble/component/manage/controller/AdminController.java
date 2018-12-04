@@ -5,6 +5,7 @@ import java.lang.management.ThreadInfo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -90,5 +91,19 @@ public class AdminController {
         ArrayList<ThreadInfo> arrayList = new ArrayList<ThreadInfo>(threadInfos.length);
         Collections.addAll(arrayList, threadInfos);
         return arrayList;
+    }
+
+    public void getStackTrace() {
+        for (Map.Entry<Thread, StackTraceElement[]> stackTrace : Thread.getAllStackTraces().entrySet()) {
+            Thread thread = stackTrace.getKey();
+            StackTraceElement[] stack = stackTrace.getValue();
+            if (thread.equals(Thread.currentThread())) {
+                continue;
+            }
+            //            out.print("\n线程" + thread.getName() + "\n");
+            for (StackTraceElement stackTraceElement : stack) {
+                //                out.print("\t" + stackTraceElement + "\n");
+            }
+        }
     }
 }
