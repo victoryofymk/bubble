@@ -20,6 +20,7 @@
         <module>bubble-component-cucumber</module>
         <module>bubble-component-shiro</module>
         <module>bubble-component-manage</module>
+        <module>bubble-component-log</module>
     </modules>
 
     <dependencies>
