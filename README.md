@@ -167,8 +167,129 @@ easyuigrid
     META_INF/resources 下面的静态资源文件可以覆盖引用的 jar 保重的资源文件
 #### WebJars统一管理静态资源
 
+##### 引入相关依赖
+```
+<!--Webjars版本定位工具（前端）-->
+<dependency>
+ <groupId>org.webjars</groupId>
+ <artifactId>webjars-locator-core</artifactId>
+</dependency>
+<!--Jquery组件（前端）-->
+<dependency>
+ <groupId>org.webjars</groupId>
+ <artifactId>jquery</artifactId>
+ <version>3.3.1</version>
+ </dependency>
+```
 
+##### 访问静态资源
+在浏览器访问静态资源：
+
+快速访问：http://localhost:8080/webjars/jquery/jquery.js （推荐）
+
+快速访问：http://localhost:8080/webjars/jquery/3.3.1/jquery.js
+
+webjars-locator-core 解决访问WebJars静态资源时必须携带版本号的繁琐问题
+
+##### 静态资源版本化
+
+1.简洁做法
+
+新建一个SpringBoot项目，手工创建目录 META-INF/resources/ ，将静态资源完整复制进去，然后发布公司Maven私服即可。
+
+2.标准的Webjars格式
+
+1、新建SpringBoot工程 然后在srcmain esources 新建目录 META-INF.resources.webjars.metronic.4.1.9 重点来了 这里4.1.9 必须跟POM文件的<version>4.1.9</version>保持一致。
+2、修改POM文件 填写项目信息和公司私服地址。
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+ <!--项目信息-->
+ <groupId>org.webjars</groupId>
+ <artifactId>metronic</artifactId>
+ <version>4.1.9</version>
+ <packaging>jar</packaging>
+ <name>metronic</name>
+ <description>metronic</description>
  
+ <!--维护信息-->
+ <developers>
+     <developer>
+     <name>socks</name>
+     <email>https://github.com/yizhiwazi</email>
+     </developer>
+ </developers>
+ <!--发布地址-->
+ <distributionManagement>
+     <repository>
+         <id>xx-repo</id>
+         <!--这里替换成公司私服地址-->
+         <url>http://127.0.0.1:8088/nexus/content/repositories/thirdparty/</url>
+     </repository>
+     <snapshotRepository>
+         <id>xx-plugin-repo</id>
+         <!--这里替换成公司私服地址-->
+         <url>http://127.0.0.1:8088/nexus/content/repositories/thirdparty/</url>
+     </snapshotRepository>
+ </distributionManagement>
+</project>
+```
+3、在本地MAVEN的配置文件指定公司私服的账号密码。
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+ <localRepository>D:devmvnrepository</localRepository>
+ <mirrors>
+     <!-- 阿里云仓库 -->
+     <mirror>
+     <id>aliyun</id>
+     <mirrorOf>central</mirrorOf>
+     <name>aliyun-all</name>
+     <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+     </mirror>
+ 
+     <!-- 中央仓库1 -->
+     <mirror>
+     <id>repo1</id>
+     <mirrorOf>central</mirrorOf>
+     <name>Human Readable Name for this Mirror.</name>
+     <url>http://repo1.maven.org/maven2/</url>
+     </mirror>
+ 
+     <!-- 中央仓库2 -->
+     <mirror>
+     <id>repo2</id>
+     <mirrorOf>central</mirrorOf>
+     <name>Human Readable Name for this Mirror.</name>
+     <url>http://repo2.maven.org/maven2/</url>
+     </mirror>
+ </mirrors> 
+ 
+ <!-- 暂时在发布仓库到213的时候用到-->
+ <servers>
+     <!-- 仓库地址账号 -->
+     <server>
+         <id>xx-repo</id>
+         <username>admin</username>
+         <password>123456</password>
+     </server>
+     <!-- 插件地址账号 -->
+     <server>
+         <id>xx-plugin-repo</id>
+         <username>admin</username>
+         <password>123456</password>
+     </server>
+ </servers>
+</settings>
+
+```
+4、打开IDEA->Maven->Deploy 将项目到公司私服，大功告成。
+
 ### 后端
 #### 就成spring-boot-starter-data-jpa
 spring-boot-starter-data-jpa，示例模块：bubble-component-shiro
@@ -584,6 +705,23 @@ window.SwaggerTranslator.learn({
     "server returned": "服务器返回"
 });
 ```
+>5. 第三方页面增强-Swagger增强UI实现
+
+https://github.com/xiaoymin/Swagger-Bootstrap-UI
+
+说明：https://github.com/xiaoymin/Swagger-Bootstrap-UI/blob/master/README_zh.md
+
+引入：
+```
+<dependency>
+  <groupId>com.github.xiaoymin</groupId>
+  <artifactId>swagger-bootstrap-ui</artifactId>
+  <version>${lastVersion}</version>
+</dependency>
+```
+
+访问：http://${host}:${port}/doc.html
+
 
 ## 部署
 ### 本地运行
