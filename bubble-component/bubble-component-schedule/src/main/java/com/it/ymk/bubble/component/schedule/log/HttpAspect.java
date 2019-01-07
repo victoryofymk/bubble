@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSONObject;
 
 /**
- * 处理httpl请求、返回日志
+ * 为定时任务请求提供切面，在执行点前后处理
  *
  * @author yanmingkun
  * @date 2018-11-06 09:21
