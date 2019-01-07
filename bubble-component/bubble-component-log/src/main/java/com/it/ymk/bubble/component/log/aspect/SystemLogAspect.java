@@ -20,6 +20,8 @@ import com.it.ymk.bubble.component.log.annotation.SystemControllerLog;
 import com.it.ymk.bubble.component.log.annotation.SystemServiceLog;
 
 /**
+ * 根据注解提供日志切面，记录到数据库
+ * 
  * @author yanmingkun
  * @date 2018-12-04 13:56
  */
