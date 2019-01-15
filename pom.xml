@@ -34,7 +34,7 @@
         <axis2.version>1.6.2</axis2.version>
         <maven.test.skip>true</maven.test.skip>
         <cxf.version>3.2.6</cxf.version>
-        <jackson.version>2.9.5</jackson.version>
+        <jackson.version>2.9.8</jackson.version>
         <!--<project.deploy.directory>${env.RELEASE_HOME}</project.deploy.directory>-->
     </properties>
 
@@ -110,7 +110,7 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.3.2</version>
+            <version>1.3.3</version>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
