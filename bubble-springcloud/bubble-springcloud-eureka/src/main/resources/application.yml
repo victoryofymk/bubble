@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: eureka-server
+  security:
+    user:
+      name: eureka
+      password: 123456
+server:
+  port: 9000 # 8761是eureka server的默认端口
+
+eureka:
+  server:
+    enable-self-preservation: false #防止由于Eureka的机制导致Client被错误显示在线 仅在开发环境使用
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false #不显示对server应用的注册
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+
