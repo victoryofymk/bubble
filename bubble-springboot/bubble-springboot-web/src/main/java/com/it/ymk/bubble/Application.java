@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import com.it.ymk.bubble.core.utils.ErrorUtil;
 @SpringBootApplication
 @MapperScan("com.it.ymk.bubble.**.dao")
 @ImportResource(locations = { "classpath:cxf.xml" })
+@EnableEurekaClient
 public class Application {
 
     /**
