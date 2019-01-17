@@ -11,9 +11,7 @@ import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
@@ -42,17 +40,18 @@ public class JobController<T> {
     private Scheduler             scheduler;
 
     /**
-     * 新增一个job
+     * 新增一个定时任务
+     *
      * @param jobClassName
      * @param jobGroupName
      * @param cronExpression
      * @throws Exception
      */
-    @ApiOperation(" 新增一个job")
+    @ApiOperation("新增一个定时任务")
     @ApiImplicitParams({ @ApiImplicitParam(name = "jobClassName", value = "任务class名称", dataType = "String"),
                          @ApiImplicitParam(name = "jobGroupName", value = "任务分组名称", dataType = "String"),
                          @ApiImplicitParam(name = "cronExpression", value = "任务时间表达式  ", dataType = "String") })
-    @RequestMapping(value = "/addSingleJob")
+    @PostMapping(value = "/addSingleJob")
     public void addSingleJob(@RequestParam(value = "jobClassName") String jobClassName,
         @RequestParam(value = "jobGroupName") String jobGroupName,
         @RequestParam(value = "cronExpression") String cronExpression) throws Exception {
@@ -60,12 +59,106 @@ public class JobController<T> {
     }
 
     /**
-     * 触发一个job
+     * 批量新增定时任务
+     *
+     * @param list
+     * @throws Exception
+     */
+    @ApiOperation("批量新增定时任务")
+    @ApiImplicitParam(name = "list", value = "任务数组", dataType = "JobAndTrigger")
+    @PostMapping(value = "/addBatchJob")
+    public void addBatchJob(List<JobAndTrigger> list) throws Exception {
+        //        addJob(jobClassName, jobGroupName, cronExpression);
+    }
+
+    /**
+     * 删除一个定时任务
+     *
      * @param jobClassName
      * @param jobGroupName
      * @throws Exception
      */
-    @RequestMapping(value = "/triggerJob")
+    @ApiOperation("删除一个定时任务")
+    @ApiImplicitParams({ @ApiImplicitParam(name = "jobClassName", value = "任务class名称", dataType = "String"),
+                         @ApiImplicitParam(name = "jobGroupName", value = "任务分组名称", dataType = "String"),
+                         @ApiImplicitParam(name = "cronExpression", value = "任务时间表达式  ", dataType = "String") })
+    @DeleteMapping(value = "/deleteSingleJob")
+    public void deleteSingleJob(@RequestParam(value = "jobClassName") String jobClassName,
+        @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
+        deleteJob(jobClassName, jobGroupName);
+    }
+
+    /**
+     * 批量删除定时任务
+     *
+     * @param list
+     * @throws Exception
+     */
+    @ApiOperation("批量删除定时任务")
+    @ApiImplicitParam(name = "list", value = "任务数组", dataType = "JobAndTrigger")
+    @DeleteMapping(value = "/deleteBatchJob")
+    public void deleteBatchJob(List<JobAndTrigger> list) throws Exception {
+        List<JobKey> jobKeyList = new ArrayList<JobKey>();
+        for (JobAndTrigger jobAndTrigger : list) {
+            jobKeyList.add(JobKey.jobKey(jobAndTrigger.getJobClassName(), jobAndTrigger.getJobGroup()));
+        }
+        deleteJobs(jobKeyList);
+    }
+
+    /**
+     * 重新执行计划
+     *
+     * @param jobClassName
+     * @param jobGroupName
+     * @param cronExpression
+     * @throws Exception
+     */
+    @ApiOperation("重新执行计划")
+    @ApiImplicitParams({ @ApiImplicitParam(name = "jobClassName", value = "任务class名称", dataType = "String"),
+                         @ApiImplicitParam(name = "jobGroupName", value = "任务分组名称", dataType = "String"),
+                         @ApiImplicitParam(name = "cronExpression", value = "任务时间表达式  ", dataType = "String") })
+    @PutMapping(value = "/rescheduleSingleJob")
+    public void rescheduleSingleJob(@RequestParam(value = "jobClassName") String jobClassName,
+        @RequestParam(value = "jobGroupName") String jobGroupName,
+        @RequestParam(value = "cronExpression") String cronExpression) throws Exception {
+        rescheduleJob(jobClassName, jobGroupName, cronExpression);
+    }
+
+    /**
+     * 分页查询
+     * 
+     * @param m
+     * @param pageNum
+     * @param pageSize
+     * @param orderBy
+     * @return
+     */
+    @ApiOperation("分页查询定时任务")
+    @ApiImplicitParams({ @ApiImplicitParam(name = "pageNum", value = "当前页", dataType = "Integer"),
+                         @ApiImplicitParam(name = "pageSize", value = "分页大小", dataType = "Integer"),
+                         @ApiImplicitParam(name = "orderBy", value = "排序字段  ", dataType = "String") })
+    @GetMapping(value = "/queryjob")
+    public Map<String, Object> queryjob(T m, @RequestParam(value = "pageNum") Integer pageNum,
+        @RequestParam(value = "pageSize") Integer pageSize, String orderBy) {
+        Page<JobAndTrigger> page = new Page<>();
+        page.setPageNum(pageNum);
+        page.setPageSize(pageSize);
+        page.setOrderBy(orderBy);
+        PageInfo<JobAndTrigger> jobAndTrigger = iJobAndTriggerService.getJobAndTriggerDetails(page);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("JobAndTrigger", jobAndTrigger);
+        map.put("number", jobAndTrigger.getTotal());
+        return map;
+    }
+
+    /**
+     * 触发一个job
+     *
+     * @param jobClassName
+     * @param jobGroupName
+     * @throws Exception
+     */
+    @PutMapping(value = "/triggerJob")
     public void executeStoredJob(@RequestParam(value = "jobClassName") String jobClassName,
         @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
         triggerJob(JobKey.jobKey(jobClassName, jobGroupName));
@@ -82,22 +175,13 @@ public class JobController<T> {
     }
 
     /**
-     * 新增批量job
-     * @param list
-     * @throws Exception
-     */
-    @RequestMapping(value = "/addBatchJob")
-    public void addBatchJob(List<JobAndTrigger> list) throws Exception {
-        //        addJob(jobClassName, jobGroupName, cronExpression);
-    }
-
-    /**
      * 暂停一个job
+     *
      * @param jobClassName
      * @param jobGroupName
      * @throws Exception
      */
-    @RequestMapping(value = "/pauseSingleJob")
+    @PutMapping(value = "/pauseSingleJob")
     public void pauseSingleJob(@RequestParam(value = "jobClassName") String jobClassName,
         @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
         pauseJob(JobKey.jobKey(jobClassName, jobGroupName));
@@ -105,10 +189,11 @@ public class JobController<T> {
 
     /**
      * 暂停多个job
+     *
      * @param list
      * @throws Exception
      */
-    @RequestMapping(value = "/pauseBatchJob")
+    @PutMapping(value = "/pauseBatchJob")
     public void pauseBatchJob(List<JobAndTrigger> list) throws Exception {
         for (JobAndTrigger jobAndTrigger : list) {
             pauseJob(JobKey.jobKey(jobAndTrigger.getJobClassName(), jobAndTrigger.getJobGroup()));
@@ -118,11 +203,12 @@ public class JobController<T> {
     /**
      *
      * 恢复一个job
+     *
      * @param jobClassName
      * @param jobGroupName
      * @throws Exception
      */
-    @RequestMapping(value = "/resumeSingleJob")
+    @PutMapping(value = "/resumeSingleJob")
     public void resumeSingleJob(@RequestParam(value = "jobClassName") String jobClassName,
         @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
         resumeJob(jobClassName, jobGroupName);
@@ -131,65 +217,23 @@ public class JobController<T> {
     /**
      *
      * 恢复多个job
+     *
      * @param list
      * @throws Exception
      */
-    @RequestMapping(value = "/resumeBatchJob")
+    @PutMapping(value = "/resumeBatchJob")
     public void resumeSingleJob(List<JobAndTrigger> list) throws Exception {
         for (JobAndTrigger jobAndTrigger : list) {
             resumeJob(JobKey.jobKey(jobAndTrigger.getJobClassName(), jobAndTrigger.getJobGroup()));
         }
     }
 
-    /**
-     * 重新执行计划
-     * @param jobClassName
-     * @param jobGroupName
-     * @param cronExpression
-     * @throws Exception
-     */
-    @RequestMapping(value = "/rescheduleSingleJob")
-    public void rescheduleSingleJob(@RequestParam(value = "jobClassName") String jobClassName,
-        @RequestParam(value = "jobGroupName") String jobGroupName,
-        @RequestParam(value = "cronExpression") String cronExpression) throws Exception {
-        rescheduleJob(jobClassName, jobGroupName, cronExpression);
-    }
-
-    @RequestMapping(value = "/deleteSingleJob")
-    public void deleteSingleJob(@RequestParam(value = "jobClassName") String jobClassName,
-        @RequestParam(value = "jobGroupName") String jobGroupName) throws Exception {
-        deleteJob(jobClassName, jobGroupName);
-    }
-
-    @RequestMapping(value = "/deleteBatchJob")
-    public void deleteBatchJob(List<JobAndTrigger> list) throws Exception {
-        List<JobKey> jobKeyList = new ArrayList<JobKey>();
-        for (JobAndTrigger jobAndTrigger : list) {
-            jobKeyList.add(JobKey.jobKey(jobAndTrigger.getJobClassName(), jobAndTrigger.getJobGroup()));
-        }
-        deleteJobs(jobKeyList);
-    }
-
-    @RequestMapping(value = "/queryjob")
-    public Map<String, Object> queryjob(T m, @RequestParam(value = "pageNum") Integer pageNum,
-        @RequestParam(value = "pageSize") Integer pageSize, String orderBy) {
-        Page<JobAndTrigger> page = new Page<>();
-        page.setPageNum(pageNum);
-        page.setPageSize(pageSize);
-        page.setOrderBy(orderBy);
-        PageInfo<JobAndTrigger> jobAndTrigger = iJobAndTriggerService.getJobAndTriggerDetails(page);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("JobAndTrigger", jobAndTrigger);
-        map.put("number", jobAndTrigger.getTotal());
-        return map;
-    }
-
-    @RequestMapping(value = "/pauseAllJob")
+    @PutMapping(value = "/pauseAllJob")
     public void pauseAllJob() throws SchedulerException {
         pauseAll();
     }
 
-    @RequestMapping(value = "/resumeAllJob")
+    @PutMapping(value = "/resumeAllJob")
     public void resumeAllJob() throws SchedulerException {
         resumeAll();
     }
