@@ -725,11 +725,14 @@ https://github.com/xiaoymin/Swagger-Bootstrap-UI
 
 ## 部署
 ### 本地运行
+修改application.properties相关配置
 
-配置中可以修改启动环境
+修改启动环境
 ```
 spring.profiles.active=dev
 ```
+
+修改数据源、redis等环境信息
 本地运行在IDE直接运行com.it.ymk.bubble.Application
 
 ### 多环境打包
@@ -743,12 +746,17 @@ mvn package -Pdev
 
 ### jar包启动
 
+启动应用，control+c或者退出命令行应用关闭
 ```
 java -jar XXX.jar
 ```
 
+后台启动
+
 ### 制作docker镜像
-简洁版
+基于docker-maven-plugin或者dockerfile-maven-plugin 插件构建docker，推荐使用dockerfile-maven-plugin
+
+dockerfile基础配置
 ```
 #简洁版
 FROM openjdk:8-jdk-alpine
@@ -756,7 +764,7 @@ VOLUME /tmp
 ADD ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 ```
-进阶版
+dockerfile进阶配置，加入时区
 ```
 #包含时区设置
 FROM openjdk:8-jdk-alpine
@@ -770,6 +778,29 @@ RUN apk add -U tzdata \
 
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
 ```
+### 推送远程docker服务器
+
+远程服务器修改配置步骤：
+1. 修改/etc/docker/daemon.json文件，加入hosts配置即可。
+如：
+{
+"hosts":["tcp://0.0.0.0:2375","unix:///var/run/docker.sock"]
+}
+
+2. 重新加载配置文件，并重启docker
+
+```
+systemctl daemon-reload
+systemctl restart docker
+```
+
+3. 验证，直接访问：
+```
+curl 127.0.0.1:2375/info
+
+```
+返回记录即可说明已经生效。
+
 ### docker启动
 基础依赖：docker、maven
 
