@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.it.ymk.bubble.dao.pojo.Car;
+import com.it.ymk.bubble.web.pojo.Car;
 import com.it.ymk.bubble.web.service.rest.RestServiceDemoImpl;
 
 /**

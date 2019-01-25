@@ -20,8 +20,8 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
-import com.it.ymk.bubble.dao.pojo.Item;
-import com.it.ymk.bubble.dao.pojo.Shop;
+import com.it.ymk.bubble.web.pojo.Item;
+import com.it.ymk.bubble.web.pojo.Shop;
 
 public class TmallCrawler {
     static {

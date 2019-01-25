@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.it.ymk.bubble.dao.pojo.Shop;
-import com.it.ymk.bubble.dao.pojo.User;
+import com.it.ymk.bubble.web.pojo.Shop;
+import com.it.ymk.bubble.web.pojo.User;
 
 import net.sf.json.JSONArray;
 

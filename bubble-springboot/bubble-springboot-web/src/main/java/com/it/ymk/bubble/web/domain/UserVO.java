@@ -1,4 +1,4 @@
-package com.it.ymk.bubble.dao.domain;
+package com.it.ymk.bubble.web.domain;
 
 import java.io.Serializable;
 

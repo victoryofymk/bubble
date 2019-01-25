@@ -1,4 +1,4 @@
-package com.it.ymk.bubble.dao.pojo;
+package com.it.ymk.bubble.web.pojo;
 
 import java.io.Serializable;
 

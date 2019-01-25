@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.it.ymk.bubble.core.utils.CookieUtil;
-import com.it.ymk.bubble.dao.domain.UserVO;
+import com.it.ymk.bubble.web.domain.UserVO;
 
 /**
  *  登录验证，springMVC 使用

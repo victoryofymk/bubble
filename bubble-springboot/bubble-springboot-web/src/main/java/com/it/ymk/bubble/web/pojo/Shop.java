@@ -1,35 +1,38 @@
-package com.it.ymk.bubble.dao.pojo;
+package com.it.ymk.bubble.web.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
-*@Title Item.java
-*@description 商品
-*@time 2016年9月22日 下午2:14:51
-*@author yanmingkun
-*@version 1.0
-**/
-public class Item implements Serializable {
+ *
+ * @Title Shop.java
+ * @description 商店pojo
+ * @time 2016年9月22日 下午2:15:16
+ * @author yanmingkun
+ * @version 1.0
+ *
+ */
+public class Shop implements Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = -1908393659164670070L;
+    private static final long serialVersionUID = 8660191828234644739L;
     /**
-     * 商品ID
+     *
      */
     private String            ID;
     /**
-     * 商品名称
+     * 商店ID
      */
     private String            name;
     /**
-     * 商品地址
+     * 商店名称
      */
     private String            src;
     /**
-     * 商品价格
+     * 所有商品
      */
-    private String            pritice;
+    private List<Item>        listItem;
 
     /**
      * @return the iD
@@ -62,21 +65,6 @@ public class Item implements Serializable {
     }
 
     /**
-     * @return the pritice
-     */
-    public String getPritice() {
-        return pritice;
-    }
-
-    /**
-     * @param pritice
-     *            the pritice to set
-     */
-    public void setPritice(String pritice) {
-        this.pritice = pritice;
-    }
-
-    /**
      * @return the src
      */
     public String getSrc() {
@@ -91,4 +79,18 @@ public class Item implements Serializable {
         this.src = src;
     }
 
+    /**
+     * @return the listItem
+     */
+    public List<Item> getListItem() {
+        return listItem;
+    }
+
+    /**
+     * @param listItem
+     *            the listItem to set
+     */
+    public void setListItem(List<Item> listItem) {
+        this.listItem = listItem;
+    }
 }
