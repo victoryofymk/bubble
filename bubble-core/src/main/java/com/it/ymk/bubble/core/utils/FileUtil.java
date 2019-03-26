@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
 import org.slf4j.Logger;

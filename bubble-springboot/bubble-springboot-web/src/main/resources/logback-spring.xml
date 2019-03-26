@@ -246,6 +246,22 @@
         </encoder>
     </appender>
 
+    <!--  redis日志 -->
+    <appender name="LOGSTASH" class="com.cwbase.logback.RedisAppender">
+        <source>mySource</source>
+        <sourcePath>mySourcePath</sourcePath>
+        <type>bubble</type>
+        <tags>local</tags>
+        <host>10.12.12.107</host>
+        <port>6379</port>
+        <password>redis_sax</password>
+        <!-- 这个Key是Redis List的Key，需要和Logstash读取Redis的Key匹配 -->
+        <key>logstash</key>中
+    </appender>
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="LOGSTASH"/>
+    </appender>
 
     <!--设置某一个包或具体的某一个类的日志打印级别
         name: 用来指定受此loger约束的某一个包或者具体的某一个类。
@@ -282,7 +298,7 @@
     </springProfile>
 
     <springProfile name="prod">
-        <!-- 当 "生产" 环境时，该配置不激活-->
+        <!-- 当 "生产" 环境时，该配置激活-->
         <logger name="org.apache.commons" level="DEBUG" additivity="false">
             <appender-ref ref="DEBUG"/>
         </logger>
@@ -312,6 +328,8 @@
         <appender-ref ref="INFO"/>
         <appender-ref ref="WARN"/>
         <appender-ref ref="ERROR"/>
+        <!--ref="ASYNC"修改为异步-->
+        <appender-ref ref="LOGSTASH"/>
     </root>
 </configuration>
 

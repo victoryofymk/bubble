@@ -30,7 +30,7 @@ import com.alibaba.fastjson.JSONObject;
 public class HttpAspect {
     private static final Logger logger    = LoggerFactory.getLogger(HttpAspect.class);
 
-    static ThreadLocal<HashMap> threadmap = ThreadLocal.withInitial(() -> new HashMap());
+    private static ThreadLocal<HashMap> threadmap = ThreadLocal.withInitial(HashMap::new);
 
     /**
      * 只关注方法名为find前缀的

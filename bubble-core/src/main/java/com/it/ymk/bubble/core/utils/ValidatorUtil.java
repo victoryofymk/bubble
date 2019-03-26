@@ -3,7 +3,7 @@ package com.it.ymk.bubble.core.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 合法性校验工具

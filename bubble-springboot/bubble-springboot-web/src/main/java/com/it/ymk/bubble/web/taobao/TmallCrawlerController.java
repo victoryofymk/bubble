@@ -1,6 +1,5 @@
 package com.it.ymk.bubble.web.taobao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -13,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.it.ymk.bubble.web.pojo.Shop;
 import com.it.ymk.bubble.web.pojo.User;
 
-import net.sf.json.JSONArray;
 
 /**
  * @Title TmallCrawler.java
@@ -32,15 +31,15 @@ public class TmallCrawlerController {
     @ResponseBody
     public List<Shop> hello(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("user") User user)
         throws Exception {
-        String reslult = null;
-        List<Shop> list = new ArrayList<Shop>();
+        String reslult;
+        List<Shop> list;
         try {
             list = TmallCrawler.getAllFavourite(user.getName(), user.getPassword());
             // List<Shop> list =
             // TmallCrawler.getAllFavouriteByCookie(user.getName(),
             // user.getPassword(),
             // user.getCookie());
-            reslult = JSONArray.fromObject(list).toString();
+            reslult = JSONArray.toJSONString(list);
             Cookie[] cookies = request.getCookies();
             // for (Cookie cookie : cookies) {
             // System.out.println(cookie);
