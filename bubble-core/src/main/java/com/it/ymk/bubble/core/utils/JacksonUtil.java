@@ -1,21 +1,18 @@
 package com.it.ymk.bubble.core.utils;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.util.*;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.*;
+
 /**
  *  处理JSON数据工具类
  *
- * @author chentengda
- * @version $v:1.0, $time:2016-12-26, 
- * $id:JacksonUtil.java, Exp $
  */
 public class JacksonUtil {
 

@@ -1,21 +1,15 @@
 package com.it.ymk.bubble.core.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
-import java.io.IOException;
-import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author yanmingkun
@@ -147,33 +141,6 @@ public class EnumUtil {
         return mapList;
     }
 
-    /**
-     * 插入数据库
-     *
-     * @param emp
-     * @return
-     */
-    public int insertEnterprise(List<Map> emp) {
-        String resource = "mybaits-config.xml";
-        Reader reader = null;
-        SqlSessionFactory ssf = null;
-        SqlSession session = null;
-        int count = 0;
-        try {
-            reader = Resources.getResourceAsReader(resource);
-            SqlSessionFactoryBuilder builder = new SqlSessionFactoryBuilder();
-            ssf = builder.build(reader);
-            session = ssf.openSession();
-            count = session.insert("com.org.position.dao.employeeDao.insertEnterprise", emp);
-            session.commit();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return count;
-    }
 
     public static void main(String[] args) throws Exception {
         EnumUtil.getAllEnum("", "com.it.ymk.core.common.reflect.constenum");

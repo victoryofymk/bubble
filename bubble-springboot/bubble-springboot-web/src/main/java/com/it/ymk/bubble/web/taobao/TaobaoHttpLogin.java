@@ -1,20 +1,7 @@
 package com.it.ymk.bubble.web.taobao;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.net.ssl.SSLContext;
-
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -36,21 +23,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.net.ssl.SSLContext;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- *
+ * @author yanmingkun
+ * @version 1.0
  * @Title TaobaoHttpLogin.java
  * @description TODO
  * @time 2016年9月22日 下午2:11:39
- * @author yanmingkun
- * @version 1.0
- *
  */
 public class TaobaoHttpLogin {
     private static CookieStore sslcookies = new BasicCookieStore();
-    private static CookieStore cookies    = new BasicCookieStore();
+    private static CookieStore cookies = new BasicCookieStore();
 
     /**
-     *
      * @param isSSL
      * @return
      */
@@ -74,19 +70,17 @@ public class TaobaoHttpLogin {
             if (null != sslContext) {
                 SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext);
                 return HttpClients.custom().setSSLSocketFactory(sslsf).setDefaultCookieStore(sslcookies).build();
-            }
-            else {
+            } else {
                 return HttpClients.custom().setDefaultCookieStore(cookies).build();
             }
-        }
-        else {
+        } else {
             return HttpClients.custom().setDefaultCookieStore(cookies).build();
         }
     }
 
     public static void headerWrapper(AbstractHttpMessage methord) {
         methord.setHeader("user-agent",
-            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
+                "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36");
         methord.setHeader("accept-language", "zh-CN,zh;q=0.8");
         methord.setHeader("Accept-Encoding", "gzip, deflate, br");
         methord.setHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
@@ -106,8 +100,7 @@ public class TaobaoHttpLogin {
             } catch (Exception e) {
                 return null;
             }
-        }
-        else if (jsonString.startsWith("[") && jsonString.endsWith("]")) {
+        } else if (jsonString.startsWith("[") && jsonString.endsWith("]")) {
             JSONArray ja = null;
             try {
                 ja = new JSONArray(jsonString);
@@ -122,7 +115,7 @@ public class TaobaoHttpLogin {
     public static String getCodeUrl(String TPL_username) {
         CloseableHttpClient httpClient = createSSLClientDefault(true);
         HttpPost hp = new HttpPost(
-            "https://login.com.com.it.ymk.bubble.web.taobao.com/member/request_nick_check.do?_input_charset=utf-8");
+                "https://login.com.com.it.ymk.bubble.web.taobao.com/member/request_nick_check.do?_input_charset=utf-8");
         headerWrapper(hp);
         hp.setHeader("Accept", "application/json, text/javascript, */*; q=0.01");
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -157,7 +150,6 @@ public class TaobaoHttpLogin {
     }
 
     /**
-     *
      * @param url
      */
     public static void handleVilidateCode(String url) {

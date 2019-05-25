@@ -1,26 +1,23 @@
 package com.it.ymk.bubble.component.manage.controller;
 
-import java.lang.management.MonitorInfo;
-import java.lang.management.ThreadInfo;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
+import com.it.ymk.bubble.common.template.util.VelocityUtil;
+import com.it.ymk.bubble.core.utils.ThreadUtilities;
+import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.it.ymk.bubble.core.utils.ThreadUtilities;
-import com.it.ymk.bubble.core.utils.VelocityUtil;
-
-import io.swagger.annotations.Api;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.management.MonitorInfo;
+import java.lang.management.ThreadInfo;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 应用管理工具
@@ -36,6 +33,7 @@ public class AdminController {
 
     /**
      * 根据进程ID查找
+     *
      * @param threadId
      * @param request
      * @param response
@@ -43,7 +41,7 @@ public class AdminController {
      */
     @RequestMapping(value = "/getThreadInfo")
     public String getThreadInfo(@RequestParam(value = "threadId") String threadId, HttpServletRequest request,
-        HttpServletResponse response) {
+                                HttpServletResponse response) {
 
         LOGGER.debug("执行选择的Job对象 queryQuartzLog quartzLog:");
         try {
@@ -82,7 +80,7 @@ public class AdminController {
 
     /**
      * 查询全部进程
-     * 
+     *
      * @return
      */
     @RequestMapping(value = "/getThreadList")

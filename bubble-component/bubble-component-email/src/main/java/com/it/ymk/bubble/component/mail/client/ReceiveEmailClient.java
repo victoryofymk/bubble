@@ -1,19 +1,5 @@
 package com.it.ymk.bubble.component.mail.client;
 
-import java.io.*;
-import java.util.*;
-import java.util.Map.Entry;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import javax.mail.search.*;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.it.ymk.bubble.component.mail.AuthenticatorGenerator;
 import com.it.ymk.bubble.component.mail.constant.MailConstant;
 import com.it.ymk.bubble.component.mail.entity.ReceiveHostType;
@@ -21,6 +7,18 @@ import com.it.ymk.bubble.component.mail.entity.ReceiveMailVO;
 import com.it.ymk.bubble.core.utils.DateUtil;
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.pop3.POP3Folder;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+import javax.mail.search.*;
+import java.io.*;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 读取邮箱接收邮件

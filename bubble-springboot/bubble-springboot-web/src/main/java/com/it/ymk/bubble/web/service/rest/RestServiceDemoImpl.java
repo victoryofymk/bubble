@@ -1,21 +1,22 @@
 package com.it.ymk.bubble.web.service.rest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.it.ymk.bubble.web.service.ArrayListWrapper;
+import org.springframework.stereotype.Service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
-import com.it.ymk.bubble.web.service.ArrayListWrapper;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author yanmingkun
  * @date 2018-01-08 19:25
  */
 @Path("/restService")
+@Service
 public class RestServiceDemoImpl {
     /**
      *获取资源的列表，用复数的形式，GET方法

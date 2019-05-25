@@ -1,5 +1,8 @@
 package com.it.ymk.bubble.component.schedule.config;
 
+import com.it.ymk.bubble.common.support.util.BeanLocator;
+import com.it.ymk.bubble.component.schedule.entity.QuartzLog;
+import com.it.ymk.bubble.component.schedule.service.QuartzLogService;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.Trigger;
@@ -7,18 +10,14 @@ import org.quartz.TriggerListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.it.ymk.bubble.component.schedule.entity.QuartzLog;
-import com.it.ymk.bubble.component.schedule.service.QuartzLogService;
-import com.it.ymk.bubble.core.utils.BeanLocator;
-
 /**
  * 执行监听器,监控job运行
- * 
+ *
  * @author yanmingkun
  * @date 2018-11-30 16:08
  */
 public class MonitorTriggerListener implements TriggerListener {
-    private final static Logger    logger   = LoggerFactory.getLogger(MonitorTriggerListener.class);
+    private final static Logger logger = LoggerFactory.getLogger(MonitorTriggerListener.class);
     private ThreadLocal<QuartzLog> localLog = new ThreadLocal<QuartzLog>();
 
     /**
